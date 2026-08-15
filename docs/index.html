@@ -371,7 +371,7 @@ function render(){
           <span class="tag ${e.cost==="free"?"free":""}">${esc(e.cost).replace("-"," ")}</span>
           ${e.type.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
           <span class="tag">${esc(e.venue_type).replace("-"," ")}</span>
-          ${e.outdoor?'<span class="tag">outdoor</span>':""}
+          ${e.outdoor&&!e.type.includes("outdoor")?'<span class="tag">outdoor</span>':""}
         </div></div>`;
       sec.appendChild(row);
     }
