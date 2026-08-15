@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Bay Area Week</title>
+<meta name="description" content="Arts, music, and worthwhile oddities across the Bay Area, ordered by remove from Mountain View.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Light throughout. `--ink` is the page ground, not a dark colour — the name is
+     kept so the rest of the sheet reads unchanged. Text that sits ON a saturated
+     region fill uses --on-accent, which must stay dark in every theme. */
+  --ink:#FAF9F7; --surface:#F1EEE9; --raised:#E6E1D9; --line:#D9D3C9;
+  --hairline:#EAE6DF;
+  --text:#16191C; --text-soft:#2F363D; --muted:#4E565E; --dim:#6B737C;
+  --on-accent:#1A1408;
+  /* Region fills — backgrounds only (rail segments, row ticks). Viridis,
+     light (near) to dark (far); see config/brief.yml for why the ramp matters.
+     These are only the fallback: the live values arrive in events.json. */
+  --south-bay:#FDE725; --peninsula:#5EC962; --sf:#21918C; --east-bay:#3B528B; --outer:#440154;
+  /* Region inks — same colours darkened until they read as text on the page. */
+  --south-bay-ink:#796E12; --peninsula-ink:#37773A; --sf-ink:#1B7571;
+  --east-bay-ink:#3B528B; --outer-ink:#440154;
+  --display:"Barlow Condensed",system-ui,sans-serif;
+  --body:"Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --pad:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- masthead ---------- */
+.masthead{padding:40px 0 26px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 10px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,7vw,64px);line-height:.94;
+  letter-spacing:-.01em;margin:0 0 14px;text-transform:uppercase}
+h1 em{font-style:normal;color:var(--muted);display:block;font-weight:500}
+.standfirst{color:var(--muted);max-width:56ch;margin:0;font-size:14px}
+
+/* ---------- distance rail (signature) ---------- */
+.rail{display:flex;margin:24px 0 0;height:34px;border-radius:3px;overflow:hidden}
+.rail-seg{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--display);
+  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-accent);
+  cursor:pointer;border:0;transition:opacity .2s ease}
+.rail-seg[data-on="false"]{opacity:.3}
+.rail-seg:focus-visible{outline:2px solid var(--text);outline-offset:-3px}
+.rail-key{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:7px}
+
+/* ---------- controls ---------- */
+.controls{position:sticky;top:0;z-index:10;background:rgba(250,249,247,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:13px 0;margin-bottom:6px}
+.controls-inner{max-width:1000px;margin:0 auto;padding:0 var(--pad);
+  display:flex;flex-wrap:wrap;gap:11px;align-items:center}
+.axis{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.axis button{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;background:transparent;color:var(--muted);border:0;padding:7px 13px;
+  cursor:pointer;white-space:nowrap}
+.axis button[aria-pressed="true"]{background:var(--text);color:var(--ink)}
+.axis button:focus-visible{outline:2px solid var(--sf-ink);outline-offset:-2px}
+input[type="search"]{flex:1;min-width:150px;background:#FFF;border:1px solid var(--line);
+  border-radius:3px;color:var(--text);font-family:var(--body);font-size:13px;padding:7px 11px}
+input[type="search"]:focus{outline:none;border-color:var(--sf-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;width:100%}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;color:var(--dim);border:1px solid var(--line);border-radius:999px;
+  padding:3.5px 10px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--raised);color:var(--text);border-color:var(--dim)}
+.chip:focus-visible{outline:2px solid var(--sf-ink);outline-offset:1px}
+.chipset-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);align-self:center;margin-right:2px;min-width:52px}
+.count{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto;white-space:nowrap}
+.reset{background:none;border:0;color:var(--dim);font-family:var(--mono);font-size:10.5px;
+  text-transform:uppercase;letter-spacing:.1em;cursor:pointer;text-decoration:underline}
+
+/* ---------- groups + rows ---------- */
+.group{margin-top:32px}
+/* The group underline carries the region colour when grouping by region;
+   --group-geo is unset on date groups, so those fall back to the plain line. */
+.group-head{display:flex;align-items:baseline;gap:12px;padding-bottom:8px;
+  border-bottom:2px solid var(--group-geo,var(--line))}
+.group-title{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:.01em;
+  text-transform:uppercase;margin:0;line-height:1;color:var(--text)}
+.group-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.group-n{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto}
+.ev{display:grid;grid-template-columns:3px 1fr;border-bottom:1px solid var(--hairline)}
+.ev-tick{background:var(--geo)}
+.ev-body{padding:13px 0 13px 14px}
+.ev-title{font-weight:600;font-size:16px;letter-spacing:-.005em;color:var(--text)}
+.ev-title .star{color:var(--geo-ink)}
+.ev-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:4px}
+.ev-meta .sep{color:var(--dim);padding:0 5px}
+.ev-note{color:var(--text-soft);font-size:13.5px;margin-top:6px;max-width:76ch}
+.ev-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--dim);border:1px solid var(--line);border-radius:2px;padding:2px 6px}
+.tag.free{color:var(--peninsula-ink);border-color:#A9DCAC}
+.tag.geo{color:var(--geo-ink);border-color:var(--geo-ink);opacity:.9}
+.empty{padding:60px 0;text-align:center;color:var(--dim);font-family:var(--display);
+  font-size:22px;text-transform:uppercase;letter-spacing:.08em}
+.empty span{display:block;font-family:var(--body);font-size:13px;text-transform:none;
+  letter-spacing:0;margin-top:8px}
+footer{margin-top:56px;padding:20px 0 70px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;color:var(--dim);line-height:1.9;letter-spacing:.04em}
+.m-only{display:none}
+
+/* =====================================================================
+   TIER 1 — phone (<620px): sort toggle only, telegraphic meta
+   ===================================================================== */
+@media (max-width:619px){
+  body{font-size:14.5px}
+  .rail-seg{font-size:9.5px;letter-spacing:.03em}
+  .chips,#q{display:none}
+  .controls{padding:10px 0}
+  .controls-inner{gap:10px;flex-wrap:nowrap}
+  .axis{flex:1}
+  .axis button{flex:1;padding:8px 6px;font-size:12.5px;letter-spacing:.04em}
+  .count{margin-left:0}
+  .d-only{display:none}
+  .m-only{display:inline}
+  .group-title{font-size:23px}
+  /* A 3px edge is not a legible colour target at arm's length. */
+  .ev{grid-template-columns:6px 1fr}
+  /* The blurb wraps to two lines here and would make the sticky header tall. */
+  .group-sub{display:none}
+  .ev-body{padding:12px 0 12px 12px}
+  .ev-note{font-size:13px;max-width:none}
+  .ev-tags .tag:nth-child(n+4){display:none}
+}
+
+/* =====================================================================
+   Small screens: keep the region name on screen.
+   Below 1024px the controls bar is sticky, so the group header pins
+   underneath it — --controls-h is measured in JS. Region is otherwise
+   encoded only as colour in Geo → Date mode, which is both hard to read
+   at 3px and invisible to colour-blind readers.
+   ===================================================================== */
+@media (max-width:1023px){
+  .group-head{position:sticky;top:var(--controls-h,56px);z-index:9;
+    background:var(--ink);padding-top:9px}
+  .group{margin-top:26px}
+}
+
+/* =====================================================================
+   TIER 2 — tablet (620–1023px): toggle + search + collapsible facets
+   ===================================================================== */
+@media (min-width:620px){
+  :root{--pad:28px}
+  .facets[hidden]{display:none}
+  .facet-toggle{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;background:transparent;color:var(--muted);
+    border:1px solid var(--line);border-radius:3px;padding:7px 13px;cursor:pointer;white-space:nowrap}
+  .facet-toggle[aria-expanded="true"]{background:var(--raised);color:var(--text)}
+  .facet-toggle:focus-visible{outline:2px solid var(--sf-ink);outline-offset:1px}
+}
+
+/* =====================================================================
+   TIER 3 — desktop (≥1024px): persistent sidebar, content column beside it
+   ===================================================================== */
+@media (min-width:1024px){
+  :root{--pad:32px}
+  .wrap{max-width:1180px}
+  .shell{display:grid;grid-template-columns:236px 1fr;gap:40px;
+    max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+  .controls{position:static;background:none;backdrop-filter:none;border:0;padding:0;margin:0}
+  .controls-inner{position:sticky;top:26px;display:block;padding:0;max-width:none}
+  .facets{display:block!important}
+  .facet-toggle{display:none}
+  .axis{flex-direction:column;width:100%}
+  .axis button{text-align:left;padding:9px 12px}
+  input[type="search"]{width:100%;margin-top:10px}
+  .chips{flex-direction:column;align-items:flex-start;gap:4px;margin-top:22px}
+  .chipset-label{width:100%;min-width:0;margin:0 0 5px;padding-bottom:5px;
+    border-bottom:1px solid var(--line)}
+  .count{display:block;margin:14px 0 0;text-align:left}
+  .reset{margin-top:14px;display:block}
+  .group:first-child{margin-top:4px}
+  .ev-note{max-width:68ch}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow" id="stamp">Loading…</p>
+    <h1>Bay Area Week<em id="window-label"></em></h1>
+    <p class="standfirst" id="standfirst"></p>
+    <div class="rail" id="rail" role="group" aria-label="Filter by region"></div>
+    <div class="rail-key"><span>← Home</span><span>Across the bay →</span></div>
+  </header>
+</div>
+
+<div class="shell">
+  <div class="controls">
+    <div class="controls-inner">
+      <div class="axis" role="group" aria-label="Sort axis">
+        <button id="axis-geo" aria-pressed="true">Geo → Date</button>
+        <button id="axis-date" aria-pressed="false">Date → Geo</button>
+      </div>
+      <button class="facet-toggle" id="facet-toggle" aria-expanded="false" aria-controls="facets">Filters</button>
+      <span class="count" id="count"></span>
+      <div class="facets" id="facets" hidden>
+        <input type="search" id="q" placeholder="Search title, venue, genre…" aria-label="Search listings">
+        <div class="chips" id="chips-type"></div>
+        <div class="chips" id="chips-venue"></div>
+        <div class="chips" id="chips-cost"></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <main id="out" aria-live="polite"></main>
+    <footer>
+      Built from <a href="config/brief.yml">config/brief.yml</a> ·
+      data validated against <a href="schema/events.schema.json">events.schema.json</a><br>
+      Genre notes are editorial shorthand, not official billing. Verify lineups with the venue before travelling.<br>
+      Fork it, change the brief, open a PR.
+    </footer>
+  </div>
+</div>
+
+<script>
+const DAY=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let GEOS=[],EV=[],COLOR={};
+
+/* Region colours arrive in events.json from config/brief.yml, so a fork can
+   rename or re-rank regions without touching this file. The CSS vars are only
+   the fallback for a data file that predates `color`.
+   A fill is a background; an ink is the same hue darkened until it is legible
+   as text on the page ground. */
+const PAGE_BG=[250,249,247];
+const HEX=/^#[0-9A-Fa-f]{6}$/;
+const toRGB=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+function lum(c){const a=c.map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
+  return .2126*a[0]+.7152*a[1]+.0722*a[2];}
+function contrast(a,b){const l=[lum(a),lum(b)].sort((x,y)=>y-x);return (l[0]+.05)/(l[1]+.05);}
+function inkFor(hex){
+  let c=toRGB(hex),n=0;
+  while(contrast(c,PAGE_BG)<4.5&&n++<24)c=c.map(v=>Math.max(0,Math.round(v*.9)));
+  return "rgb("+c.join(",")+")";
+}
+/* The fills now span light yellow to dark purple, so a single fixed label
+   colour cannot sit on all five. Pick per fill, whichever reads better. */
+const WHITE=[255,255,255],DARK=[26,20,8];
+const labelOn=hex=>contrast(toRGB(hex),DARK)>=contrast(toRGB(hex),WHITE)?"var(--on-accent)":"#FFF";
+const fill=id=>(COLOR[id]||{}).fill||"var(--"+id+")";
+const ink=id=>(COLOR[id]||{}).ink||"var(--"+id+"-ink)";
+const label=id=>(COLOR[id]||{}).label||"var(--on-accent)";
+let state={axis:"geo",geo:new Set(),type:new Set(),venue:new Set(),cost:new Set(),q:""};
+
+function readHash(){
+  const h=new URLSearchParams(location.hash.slice(1));
+  if(h.get("axis")==="date")state.axis="date";
+  for(const k of ["geo","type","venue","cost"]){const v=h.get(k);if(v)state[k]=new Set(v.split(","));}
+  if(h.get("q"))state.q=h.get("q");
+}
+function writeHash(){
+  const p=new URLSearchParams();
+  if(state.axis!=="geo")p.set("axis",state.axis);
+  for(const k of ["geo","type","venue","cost"])if(state[k].size)p.set(k,[...state[k]].join(","));
+  if(state.q)p.set("q",state.q);
+  const s=p.toString();
+  history.replaceState(null,"",s?("#"+s):location.pathname);
+}
+const rank=id=>(GEOS.find(g=>g.id===id)||{rank:99}).rank;
+const fmtDate=d=>{const t=new Date(d+"T12:00:00");return DAY[t.getDay()]+" "+t.getDate()+" "+MON[t.getMonth()];};
+const shortDate=d=>{const t=new Date(d+"T12:00:00");return DAY[t.getDay()].slice(0,3)+" "+t.getDate();};
+
+const VENUE_NOISE=/\b(nightclub|music hall|concert hall|amphitheat(er|re)|auditorium|theat(er|re)|ballpark|pavilion|arena|center|centre|club|saloon|lounge|bar|festival|stage|society|park)\b/gi;
+const VENUE_MAP={
+  "Habbas Law Epicenter at PayPal Park":"PayPal Pk","Frank H. Ogawa Plaza":"Ogawa Plaza",
+  "Lake Merritt Pergola":"Lk Merritt","Marin County Fairgrounds":"Marin Fairgds",
+  "Courthouse Square":"Courthouse Sq","Hillview Soccer Field":"Hillview",
+  "California Academy of Sciences":"Cal Academy","Oakland Museum of California":"OMCA",
+  "War Memorial Opera House":"Opera House","Saint Joseph's Art Society":"St Joseph's",
+  "Colma Community Center":"Colma CC","High 5ive Rooftop Bar":"High 5ive",
+  "Toyota Pavilion at Concord":"Toyota Pav.","Santa Cruz Civic Auditorium":"SC Civic",
+  "Sweetwater Music Hall":"Sweetwater","Miner Auditorium, SFJAZZ":"SFJAZZ",
+  "Hall of Flowers, Golden Gate Park":"Hall of Flowers","Greek Theatre, UC Berkeley":"Greek",
+  "Valencia St, 17th to 20th":"Valencia St","Grant Ave, California to Pacific":"Grant Ave",
+  "JFK Drive, Golden Gate Park":"JFK Drive","Bottom of the Hill":"Bottom o' Hill",
+  "Bill Graham Civic Auditorium":"Bill Graham","Mountain Winery":"Mtn Winery"
+};
+function shortVenue(v){
+  if(VENUE_MAP[v])return VENUE_MAP[v];
+  let s=v.split(",")[0].replace(/^The\s+/i,"");
+  const st=s.replace(VENUE_NOISE,"").replace(/\s{2,}/g," ").replace(/[\s,\-]+$/,"").trim();
+  if(st.length>=3)s=st;
+  return s.length>15?s.slice(0,14).trim()+".":s;
+}
+const CITY_MAP={"San Francisco":"SF","Mountain View":"Mtn View","San Jose":"San Jose","Santa Cruz":"Santa Cruz"};
+function shortCity(c){
+  if(CITY_MAP[c])return CITY_MAP[c];
+  const w=c.split(" ");
+  if(w.length>1)return w[0]+" "+w[1][0]+".";
+  return c.length>8?c.slice(0,6)+".":c;
+}
+function visible(){
+  const q=state.q.trim().toLowerCase();
+  return EV.filter(e=>{
+    if(state.geo.size&&!state.geo.has(e.geo))return false;
+    if(state.type.size&&!e.type.some(t=>state.type.has(t)))return false;
+    if(state.venue.size&&!state.venue.has(e.venue_type))return false;
+    if(state.cost.size&&!state.cost.has(e.cost))return false;
+    if(q){
+      const hay=(e.title+" "+e.venue+" "+e.city+" "+(e.genre||[]).join(" ")+" "+(e.note||"")).toLowerCase();
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  });
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  const list=visible();
+  document.getElementById("count").textContent=list.length+" of "+EV.length;
+  const out=document.getElementById("out");
+  out.innerHTML="";
+  if(!list.length){
+    out.innerHTML='<div class="empty">Nothing matches<span>Loosen a filter or clear the search.</span></div>';
+    sync();writeHash();return;
+  }
+  const groups=new Map();
+  for(const e of list){
+    const k=state.axis==="geo"?e.geo:e.date;
+    if(!groups.has(k))groups.set(k,[]);
+    groups.get(k).push(e);
+  }
+  const keys=[...groups.keys()].sort((a,b)=>state.axis==="geo"?rank(a)-rank(b):a.localeCompare(b));
+  for(const k of keys){
+    const items=groups.get(k).sort((a,b)=>state.axis==="geo"
+      ?(a.date.localeCompare(b.date)||a.title.localeCompare(b.title))
+      :(rank(a.geo)-rank(b.geo)||a.title.localeCompare(b.title)));
+    const g=GEOS.find(x=>x.id===k);
+    const sec=document.createElement("section");
+    sec.className="group";
+    if(state.axis==="geo")sec.style.setProperty("--group-geo",fill(k));
+    sec.innerHTML=`<div class="group-head">
+      <h2 class="group-title">${state.axis==="geo"?esc(g.label):fmtDate(k)}</h2>
+      <span class="group-sub">${state.axis==="geo"?esc(g.blurb||""):""}</span>
+      <span class="group-n">${items.length}</span></div>`;
+    for(const e of items){
+      const row=document.createElement("article");
+      row.className="ev";
+      row.style.setProperty("--geo",fill(e.geo));
+      row.style.setProperty("--geo-ink",ink(e.geo));
+      const gl=(GEOS.find(x=>x.id===e.geo)||{}).label||e.geo;
+      const SEP='<span class="sep">/</span>';
+      const sv=shortVenue(e.venue),sc=shortCity(e.city);
+      const full=[state.axis==="geo"?fmtDate(e.date):"",esc(e.venue),esc(e.city)].filter(Boolean).join(SEP);
+      const terse=[state.axis==="geo"?shortDate(e.date):"",esc(sv),sv.toLowerCase()===sc.toLowerCase()?"":esc(sc)].filter(Boolean).join(SEP);
+      const time=e.start?e.start+SEP:"";
+      row.innerHTML=`<div class="ev-tick"></div><div class="ev-body">
+        <div class="ev-title">${e.featured?'<span class="star">◆ </span>':""}${esc(e.title)}</div>
+        <div class="ev-meta"><span class="d-only">${time}${full}</span><span class="m-only">${time}${terse}</span></div>
+        ${e.note?`<p class="ev-note">${esc(e.note)}</p>`:""}
+        <div class="ev-tags">
+          ${state.axis==="date"?`<span class="tag geo">${esc(gl)}</span>`:""}
+          <span class="tag ${e.cost==="free"?"free":""}">${esc(e.cost).replace("-"," ")}</span>
+          ${e.type.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}
+          <span class="tag">${esc(e.venue_type).replace("-"," ")}</span>
+          ${e.outdoor?'<span class="tag">outdoor</span>':""}
+        </div></div>`;
+      sec.appendChild(row);
+    }
+    out.appendChild(sec);
+  }
+  sync();writeHash();
+}
+function sync(){
+  document.getElementById("axis-geo").setAttribute("aria-pressed",state.axis==="geo");
+  document.getElementById("axis-date").setAttribute("aria-pressed",state.axis==="date");
+  document.querySelectorAll("[data-facet]").forEach(b=>
+    b.setAttribute("aria-pressed",state[b.dataset.facet].has(b.dataset.val)));
+  document.querySelectorAll(".rail-seg").forEach(s=>
+    s.dataset.on=(!state.geo.size||state.geo.has(s.dataset.geo)));
+}
+function chipset(host,label,facet,vals){
+  const el=document.getElementById(host);
+  el.innerHTML=`<span class="chipset-label">${label}</span>`;
+  for(const v of vals){
+    const b=document.createElement("button");
+    b.className="chip";b.dataset.facet=facet;b.dataset.val=v;
+    b.textContent=v.replace("-"," ");
+    b.onclick=()=>{state[facet].has(v)?state[facet].delete(v):state[facet].add(v);render();};
+    el.appendChild(b);
+  }
+  if(facet==="cost"){
+    const r=document.createElement("button");
+    r.className="reset";r.textContent="Clear all";
+    r.onclick=()=>{state={axis:state.axis,geo:new Set(),type:new Set(),venue:new Set(),cost:new Set(),q:""};
+      document.getElementById("q").value="";render();};
+    el.appendChild(r);
+  }
+}
+function boot(d){
+  GEOS=d.meta.geos;EV=d.events;
+  COLOR={};
+  for(const g of GEOS){
+    const ok=HEX.test(g.color||"");
+    COLOR[g.id]={fill:ok?g.color:"var(--"+g.id+")",
+                 ink:ok?inkFor(g.color):"var(--"+g.id+"-ink)",
+                 label:ok?labelOn(g.color):"var(--on-accent)"};
+  }
+  readHash();
+  document.getElementById("stamp").textContent=
+    "Compiled "+fmtDate(d.meta.compiled)+" · "+EV.length+" listings";
+  document.getElementById("window-label").textContent=
+    fmtDate(d.meta.window_start).replace(/^\w+ /,"")+" – "+fmtDate(d.meta.window_end).replace(/^\w+ /,"");
+  document.getElementById("standfirst").textContent=
+    d.meta.standfirst||"Arts, music, and worthwhile oddities, ordered by remove from "+d.meta.origin.label+".";
+  const rail=document.getElementById("rail");
+  for(const g of GEOS){
+    const b=document.createElement("button");
+    b.className="rail-seg";b.dataset.geo=g.id;
+    b.style.background=fill(g.id);b.style.color=label(g.id);
+    b.textContent=g.label;b.title=g.blurb||g.label;
+    b.onclick=()=>{state.geo.has(g.id)?state.geo.delete(g.id):state.geo.add(g.id);render();};
+    rail.appendChild(b);
+  }
+  const used=f=>[...new Set(EV.flatMap(e=>Array.isArray(e[f])?e[f]:[e[f]]))].sort();
+  chipset("chips-type","Type","type",used("type"));
+  chipset("chips-venue","Venue","venue",used("venue_type"));
+  chipset("chips-cost","Cost","cost",used("cost"));
+  const q=document.getElementById("q");
+  q.value=state.q;q.oninput=()=>{state.q=q.value;render();};
+  document.getElementById("axis-geo").onclick=()=>{state.axis="geo";render();};
+  document.getElementById("axis-date").onclick=()=>{state.axis="date";render();};
+  const ft=document.getElementById("facet-toggle"),fx=document.getElementById("facets");
+  ft.onclick=()=>{const open=ft.getAttribute("aria-expanded")==="true";
+    ft.setAttribute("aria-expanded",!open);fx.hidden=open;};
+  // desktop: facets always visible
+  const mq=window.matchMedia("(min-width:1024px)");
+  const applyMQ=()=>{if(mq.matches){fx.hidden=false;}};
+  mq.addEventListener?.("change",applyMQ);applyMQ();
+
+  // Group headers pin below the sticky controls bar; measure it rather than
+  // assume a height, since opening Filters changes it.
+  const bar=document.querySelector(".controls");
+  const setBarH=()=>document.documentElement.style
+    .setProperty("--controls-h",(bar.offsetHeight||56)+"px");
+  setBarH();
+  addEventListener("resize",setBarH);
+  ft.addEventListener("click",()=>requestAnimationFrame(setBarH));
+
+  render();
+}
+fetch("events.json")
+  .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+  .then(boot)
+  .catch(err=>{
+    const local=location.protocol==="file:";
+    document.getElementById("stamp").textContent="Could not load data";
+    document.getElementById("out").innerHTML='<div class="empty">No data'+
+      '<span>'+(local
+        ? "Open this over http, not file:// — try <code>python3 -m http.server</code> in the docs/ folder."
+        : "events.json failed to load ("+err.message+"). Check that scripts/build.py has been run and docs/events.json is committed.")+
+      '</span></div>';
+  });
+</script>
+</body>
+</html>

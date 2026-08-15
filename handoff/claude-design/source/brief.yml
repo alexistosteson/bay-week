@@ -1,0 +1,257 @@
+# =============================================================================
+# brief.yml — what to look for each week
+# =============================================================================
+#
+# This file is the whole knob. An LLM reads it and researches accordingly;
+# a human reads it and understands what the digest is trying to be.
+#
+# TO MAKE IT YOURS: fork the repo, change `origin` to where you live, reorder
+# `regions`, and rewrite `interests` and `exclusions`. Nothing else needs to
+# change.
+#
+# TO PROPOSE A CHANGE HERE: open a PR against this file. Prose in `voice` and
+# the `why` fields is as reviewable as the lists — that's deliberate. Argue for
+# a taste change the same way you'd argue for a code change.
+#
+# Every key is documented inline. Anything marked OPTIONAL may be deleted.
+# =============================================================================
+
+version: 1
+
+meta:
+  title: Bay Area Arts, Culture & Curiosities
+  # Shown under the masthead. One sentence, plain.
+  # {origin} is replaced with origin.label at build time — leave it in and the
+  # line stays true after you move the starting point.
+  standfirst: >-
+    Arts, music, and worthwhile oddities, ordered by remove from {origin}.
+  maintainer: "@alexistosteson"
+
+# -----------------------------------------------------------------------------
+# WHEN
+# -----------------------------------------------------------------------------
+schedule:
+  # Day the research runs. The digest publishes that evening.
+  run_on: monday
+  # How many days forward the detailed digest covers, counting the run day.
+  window_days: 7
+  # OPTIONAL. Weeks of shallow lookahead beyond the detailed window — headliners
+  # and festivals only, no club-level detail. Set to 0 to disable.
+  lookahead_weeks: 3
+  timezone: America/Los_Angeles
+
+# -----------------------------------------------------------------------------
+# WHERE
+# -----------------------------------------------------------------------------
+# `origin` anchors the geography. Regions are ordered by remove from it, and
+# that order becomes the default sort. Rank 1 is home.
+#
+# This block is the starting point, and it is the only place it is written down.
+# `scripts/build.py` copies `origin` and `regions` (id, label, rank, blurb,
+# color) into docs/events.json on every build, and the site reads them from
+# there — so moving the starting point means editing these lines and rebuilding.
+# Nothing in index.html needs to change, including the region colours.
+origin:
+  label: Mountain View
+  lat: 37.3861
+  lng: -122.0839
+
+# Region colours are sampled from viridis, running light at rank 1 to dark at
+# rank 5 — so remove-from-origin is carried by lightness, not hue alone. That
+# ordering is what keeps the regions apart for red-green colour blindness, which
+# flattens hue but leaves lightness intact. If you re-colour these, keep the
+# lightness ramp; picking five pretty hues at similar lightness is what the old
+# palette did, and two pairs of it collapsed under deuteranopia.
+regions:
+  - id: south-bay
+    label: South Bay
+    rank: 1
+    blurb: San Jose, Saratoga, Sunnyvale, Mountain View
+    color: "#FDE725"
+    includes: [San Jose, Santa Clara, Sunnyvale, Mountain View, Saratoga, Campbell, Los Gatos, Cupertino]
+
+  - id: peninsula
+    label: Peninsula
+    rank: 2
+    blurb: Los Altos to Colma
+    color: "#5EC962"
+    includes: [Los Altos, Palo Alto, Menlo Park, Woodside, Redwood City, San Carlos, Belmont, San Mateo, Burlingame, Millbrae, Colma]
+
+  - id: sf
+    label: San Francisco
+    rank: 3
+    blurb: City and county
+    color: "#21918C"
+    includes: [San Francisco]
+
+  - id: east-bay
+    label: Berkeley & Oakland
+    rank: 4
+    blurb: Across the bay
+    color: "#3B528B"
+    includes: [Oakland, Berkeley, Alameda, Emeryville, Albany, Concord, Walnut Creek]
+
+  # `outer` is a holding pen, not a region. Things here must clear a higher bar
+  # (see coverage.outer_threshold) and are grouped under "Worth the Drive".
+  - id: outer
+    label: Worth the Drive
+    rank: 5
+    blurb: Santa Cruz, Marin, North Bay
+    color: "#440154"
+    includes: [Santa Cruz, Felton, Mill Valley, San Rafael, Novato, San Anselmo, Sebastopol, Napa, Sonoma]
+
+# -----------------------------------------------------------------------------
+# WHAT — the taste layer
+# -----------------------------------------------------------------------------
+interests:
+
+  # Ranked. When the week is crowded and something has to go, cut from the
+  # bottom. `why` is for humans and for the LLM's editorial judgement alike.
+  priorities:
+    - id: live-music
+      why: The spine of the digest. Small and mid-size rooms over arenas.
+    - id: free-outdoor
+      why: >-
+        Free public programming is the thing most likely to be missed and most
+        likely to be worth going to. Park concerts, street fairs, night markets.
+    - id: art-and-galleries
+      why: Openings, art walks, museum late nights, artist-run spaces.
+    - id: theater-dance-opera
+      why: Include experimental and small-company work, not just the big houses.
+    - id: markets-and-makers
+      why: Craft fairs, flea markets, vintage. Skip pure retail promotions.
+    - id: food-festivals
+      why: Only genuine festivals. Not restaurant weeks or bar specials.
+    - id: film
+      why: Repertory, festivals, and one-off screenings. Not regular showtimes.
+    - id: talks-and-oddities
+      why: >-
+        The catch-all for things that are interesting because they're strange —
+        competitive horticulture, diary-reading nights, roller discos.
+    - id: sports
+      why: Minor-league and local only. Cheap, walkable, atmospheric.
+
+  # Genre coverage for music. `emphasis` gets sought out actively; `include`
+  # gets listed when found; anything not listed still gets included if the
+  # booking is notable — these are weights, not a whitelist.
+  music:
+    emphasis:
+      - soul and funk
+      - jazz
+      - latin and cumbia
+      - hip-hop
+      - indie and art rock
+      - folk and americana
+      - world and traditional
+      - experimental and improv
+    include:
+      - electronic and club
+      - punk and hardcore
+      - metal
+      - classical and opera
+      - country
+      - reggae
+      - pop and k-pop
+      - tribute and legacy acts
+
+  # Venue sizes worth favouring when two events compete for a slot.
+  venue_bias:
+    prefer: [club, gallery, church, park, street, estate, winery]
+    include: [theater, concert-hall, amphitheater, museum, ballpark, rooftop]
+    deprioritize: [arena, stadium]
+
+# -----------------------------------------------------------------------------
+# WHAT NOT — exclusions
+# -----------------------------------------------------------------------------
+# Hard filters. If an event matches any of these, it does not appear.
+exclusions:
+  hard:
+    - id: paid-placement
+      match: [sponsored, advertisement, promoted listing]
+      why: The digest has no advertising and should not launder any.
+    - id: private-or-ticketed-networking
+      match: [members only, private event, invite only]
+      why: Can't act on it, so don't list it.
+    - id: retail-promotions
+      match: [sale, grand opening, happy hour, trunk show]
+      why: Commerce wearing a culture costume.
+    - id: recurring-nightlife-noise
+      match: [bottle service, table reservations, guest list]
+      why: Club promo, not programming.
+    - id: conferences
+      match: [summit, conference, expo, trade show]
+      why: >-
+        Professional events aren't culture. Exception: if it has open public
+        programming, list only that part.
+
+  # Softer. These get included but ranked low, and cut first when crowded.
+  soft:
+    - id: arena-shows
+      why: Findable without help. Include for completeness, never feature.
+    - id: chain-venue-comedy
+      why: Standing weekly programming, low information value.
+    - id: tribute-bands
+      why: >-
+        Include — they're a real part of the free-concert circuit — but never
+        feature one over an original act.
+
+  # OPTIONAL. Named things to always skip, whatever the reason.
+  blocklist:
+    venues: []
+    keywords: []
+
+# -----------------------------------------------------------------------------
+# HOW MUCH
+# -----------------------------------------------------------------------------
+coverage:
+  # `everything` lists all qualifying events. `curated` caps each region.
+  mode: everything
+  # Only applies when mode is `curated`.
+  max_per_region_per_day: 8
+  # An `outer` region event needs a real argument for the drive. The LLM should
+  # apply this as an editorial test, not a keyword match.
+  outer_threshold: >-
+    Include only if it would be among the top three events of the week were it
+    local — a rare tour, a legacy act, or a venue that is itself the draw.
+    Otherwise omit. Say plainly when nothing clears the bar.
+  # Events that recur weekly/monthly go in a standing table rather than being
+  # repeated under every date they touch.
+  collapse_recurring: true
+
+# -----------------------------------------------------------------------------
+# VOICE
+# -----------------------------------------------------------------------------
+voice:
+  register: >-
+    Informed enthusiast writing for a friend. Specific over clever. No
+    marketing copy, no exclamation points, no "don't miss".
+  genre_notes: >-
+    Every music listing gets a one-line genre description in the compiler's own
+    words — what it sounds like, not what the press release claims. Name the
+    lineage where it's useful. Where a lineup is unannounced, describe the
+    room's typical booking and label it as such.
+  editorial_calls:
+    - Say which event is the best of a crowded night, and why.
+    - Flag when two good things conflict.
+    - Note practical friction: fog, street closures, parking, transit, sellouts.
+    - Mark low-confidence descriptions rather than bluffing.
+  avoid:
+    - Restating the event title as the description.
+    - Hedging every claim into uselessness.
+    - Treating every listing as equally good.
+
+# -----------------------------------------------------------------------------
+# OUTPUT
+# -----------------------------------------------------------------------------
+output:
+  # Machine-readable record set. Validated against schema/events.schema.json.
+  json: data/{window_start}.json
+  # Human-readable digest.
+  markdown: digests/{window_start}.md
+  # What the site reads.
+  site_data: docs/events.json
+  # Primary grouping in the markdown. `day` or `region`.
+  group_by: day
+  # Within a group, order by this.
+  sort_within: region_rank
+  featured_max: 8
