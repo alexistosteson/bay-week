@@ -56,33 +56,39 @@ origin:
   lat: 37.3861
   lng: -122.0839
 
+# Region colours are sampled from viridis, running light at rank 1 to dark at
+# rank 5 — so remove-from-origin is carried by lightness, not hue alone. That
+# ordering is what keeps the regions apart for red-green colour blindness, which
+# flattens hue but leaves lightness intact. If you re-colour these, keep the
+# lightness ramp; picking five pretty hues at similar lightness is what the old
+# palette did, and two pairs of it collapsed under deuteranopia.
 regions:
   - id: south-bay
     label: South Bay
     rank: 1
     blurb: San Jose, Saratoga, Sunnyvale, Mountain View
-    color: "#F2B138"
+    color: "#FDE725"
     includes: [San Jose, Santa Clara, Sunnyvale, Mountain View, Saratoga, Campbell, Los Gatos, Cupertino]
 
   - id: peninsula
     label: Peninsula
     rank: 2
     blurb: Los Altos to Colma
-    color: "#6BCB9B"
+    color: "#5EC962"
     includes: [Los Altos, Palo Alto, Menlo Park, Woodside, Redwood City, San Carlos, Belmont, San Mateo, Burlingame, Millbrae, Colma]
 
   - id: sf
     label: San Francisco
     rank: 3
     blurb: City and county
-    color: "#5AA9E6"
+    color: "#21918C"
     includes: [San Francisco]
 
   - id: east-bay
     label: Berkeley & Oakland
     rank: 4
     blurb: Across the bay
-    color: "#E0719E"
+    color: "#3B528B"
     includes: [Oakland, Berkeley, Alameda, Emeryville, Albany, Concord, Walnut Creek]
 
   # `outer` is a holding pen, not a region. Things here must clear a higher bar
@@ -91,7 +97,7 @@ regions:
     label: Worth the Drive
     rank: 5
     blurb: Santa Cruz, Marin, North Bay
-    color: "#9B8AC4"
+    color: "#440154"
     includes: [Santa Cruz, Felton, Mill Valley, San Rafael, Novato, San Anselmo, Sebastopol, Napa, Sonoma]
 
 # -----------------------------------------------------------------------------
