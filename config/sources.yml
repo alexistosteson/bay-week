@@ -1,0 +1,111 @@
+# =============================================================================
+# sources.yml — where to look
+# =============================================================================
+#
+# Tiered by fidelity. Tier 1 gives exact times and prices; tier 3 gives
+# coverage but thin detail. Work down the tiers, and prefer the highest tier
+# that has the event.
+#
+# Adding a venue is a one-line PR. If you fork this for another city, replace
+# tier_1 wholesale and keep the tier_2/tier_3 shapes.
+# =============================================================================
+
+version: 1
+
+# -----------------------------------------------------------------------------
+# TIER 1 — venue calendars, polled directly. Highest fidelity.
+# -----------------------------------------------------------------------------
+tier_1_venues:
+
+  sf:
+    - { name: The Independent,        url: "https://www.theindependentsf.com/",        cap: 500 }
+    - { name: Great American Music Hall, url: "https://gamh.com/calendar/",            cap: 600 }
+    - { name: The Chapel,             url: "https://thechapelsf.com/calendar/",        cap: 500 }
+    - { name: Bottom of the Hill,     url: "https://www.bottomofthehill.com/calendar.html", cap: 350,
+        note: "Announced closure at end of 2026 — worth flagging while it lasts." }
+    - { name: Rickshaw Stop,          url: "https://rickshawstop.com/",                cap: 400 }
+    - { name: Bimbo's 365 Club,       url: "https://bimbos365club.com/",               cap: 500 }
+    - { name: Brick & Mortar Music Hall, url: "https://www.brickandmortarmusic.com/",  cap: 300 }
+    - { name: Café du Nord,           url: "https://www.cafedunord.com/",              cap: 300 }
+    - { name: DNA Lounge,             url: "https://www.dnalounge.com/calendar/",      cap: 500 }
+    - { name: Public Works,           url: "https://publicsf.com/",                    cap: 800 }
+    - { name: August Hall,            url: "https://www.augusthallsf.com/",            cap: 750 }
+    - { name: The Warfield,           url: "https://www.thewarfieldtheatre.com/",      cap: 2300 }
+    - { name: SFJAZZ,                 url: "https://www.sfjazz.org/",                  cap: 700 }
+    - { name: Castro Theatre,         url: "https://www.castrotheatre.com/",           cap: 1400 }
+    - { name: Stern Grove Festival,   url: "https://www.sterngrove.org/",              cap: 10000,
+        note: "Free but lottery-ticketed. Always state the access mechanism." }
+
+  east_bay:
+    - { name: Fox Theater,            url: "https://thefoxoakland.com/",               cap: 2800 }
+    - { name: Paramount Theatre,      url: "https://www.paramountoakland.org/",        cap: 3000 }
+    - { name: Yoshi's,                url: "https://yoshis.com/",                      cap: 400 }
+    - { name: The Greek Theatre,      url: "https://thegreekberkeley.com/",            cap: 8500 }
+    - { name: The New Parkway,        url: "https://thenewparkway.com/",               cap: 200 }
+    - { name: Thee Stork Club,        url: "https://www.theestorkclubopakland.com/",   cap: 150 }
+    - { name: Ivy Room,               url: "https://ivyroom.com/",                     cap: 150 }
+    - { name: Oakland Museum of California, url: "https://museumca.org/",              cap: null }
+
+  peninsula:
+    - { name: The Guild Theatre,      url: "https://guildtheatre.com/",                cap: 500 }
+    - { name: Filoli,                 url: "https://filoli.org/events/",               cap: null }
+    - { name: Music on the Square,    url: "https://www.redwoodcity.org/",             cap: null, free: true }
+
+  south_bay:
+    - { name: Shoreline Amphitheatre, url: "https://www.livenation.com/venue/",        cap: 22000 }
+    - { name: Mountain Winery,        url: "https://mountainwinery.com/",              cap: 2500 }
+    - { name: SAP Center,             url: "https://www.sapcenter.com/",               cap: 17000 }
+    - { name: San Jose Civic,         url: "https://sanjosetheaters.org/",             cap: 3000 }
+    - { name: The Ritz,               url: "https://www.ritzsanjose.com/",             cap: 500 }
+    - { name: Hammer Theatre Center,  url: "https://hammertheatre.com/",               cap: 500 }
+
+# -----------------------------------------------------------------------------
+# TIER 2 — regional aggregators. Best for free and community events that never
+# reach a ticketing platform.
+# -----------------------------------------------------------------------------
+tier_2_aggregators:
+  - { name: SF Funcheap,      url: "https://sf.funcheap.com/",       covers: [sf, east-bay, peninsula, south-bay], strength: "free and community events" }
+  - { name: DoTheBay,         url: "https://dothebay.com/",          covers: [sf, east-bay],                        strength: "music and nightlife" }
+  - { name: SF Station,       url: "https://www.sfstation.com/",     covers: [sf],                                  strength: "clubs and galleries" }
+  - { name: Downtown SF,      url: "https://downtownsf.org/events",  covers: [sf],                                  strength: "weekday downtown programming" }
+  - { name: Visit Oakland,    url: "https://www.visitoakland.com/events/", covers: [east-bay],                      strength: "festivals and street events" }
+  - { name: sanjose.events,   url: "https://sanjose.events/",        covers: [south-bay],                           strength: "South Bay breadth" }
+
+# -----------------------------------------------------------------------------
+# TIER 3 — ticketing feeds. Broad coverage, thin detail. Snippets often omit
+# the artist name, so verify against tier 1 before publishing.
+# -----------------------------------------------------------------------------
+tier_3_feeds:
+  - { name: Songkick, url: "https://www.songkick.com/metro-areas/26330-us-sf-bay-area", note: "Best single sweep of the region. Paginate by date." }
+  - { name: Bandsintown, url: "https://www.bandsintown.com/" }
+  - { name: JamBase,   url: "https://www.jambase.com/" }
+
+# -----------------------------------------------------------------------------
+# Known recurring programming. Compiled once, carried forward, verified
+# monthly rather than re-researched every week.
+# -----------------------------------------------------------------------------
+recurring:
+  - { name: Oakland First Fridays,  region: east-bay,  cadence: "1st Friday, 5–9:30pm",     cost: free }
+  - { name: Oakland Art Murmur,     region: east-bay,  cadence: "1st Friday, 6–9pm",        cost: free }
+  - { name: Second Friday Artwalk,  region: east-bay,  cadence: "2nd Friday",               cost: free }
+  - { name: Friday Nights at OMCA,  region: east-bay,  cadence: "Fridays, Apr–Oct, from 5pm", cost: free }
+  - { name: Concerts at the Lake,   region: east-bay,  cadence: "Sundays, 1–3pm",           cost: free }
+  - { name: Downtown First Thursdays, region: sf,      cadence: "1st Thursday, 5–10pm",     cost: free }
+  - { name: Inner Sunset Flea,      region: sf,        cadence: "2nd Sunday, Apr–Nov",      cost: free }
+  - { name: Lindy in the Park,      region: sf,        cadence: "Sundays, 11am–2pm",        cost: free }
+  - { name: Chinatown Night Market, region: sf,        cadence: "Monthly Fridays",          cost: free }
+  - { name: Head West Marketplace,  region: varies,    cadence: "Most weekends, rotating",  cost: free }
+  - { name: Santana Row Summer Music, region: south-bay, cadence: "Tuesdays, summer",       cost: free }
+  - { name: Music on the Square,    region: peninsula, cadence: "Fridays, 6–8pm, summer",   cost: free }
+  - { name: Palo Alto park concerts, region: peninsula, cadence: "Sundays, 6:30pm, summer", cost: free }
+
+# -----------------------------------------------------------------------------
+# Practical notes the compiler should surface when relevant.
+# -----------------------------------------------------------------------------
+local_knowledge:
+  - "Stern Grove is free but lottery-ticketed, with a same-weekend in-person Community Box Office. Always state the mechanism."
+  - "Stern Grove is eucalyptus-shaded and foggy regardless of forecast. Recommend layers."
+  - "Oakland garage break-ins are common. Recommend transit for downtown Oakland events."
+  - "Most downtown Oakland garages close gates at 7pm on weekdays. Verify closing time before parking for an evening event."
+  - "Outside Lands weekend closes the west end of Golden Gate Park and overwhelms the N-Judah and 5-Fulton."
+  - "From the Peninsula, BART park-and-ride at Fremont or Union City beats driving into Oakland."
