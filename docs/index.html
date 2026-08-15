@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <title>Bay Area Week</title>
 <meta name="description" content="Arts, music, and worthwhile oddities across the Bay Area, ordered by remove from Mountain View.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,9 +11,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0E1216; --surface:#171D24; --raised:#212A33; --line:#2C3742;
-  --text:#F4F8FB; --muted:#AEBDC9; --dim:#7A8B99;
+  /* Light throughout. `--ink` is the page ground, not a dark colour — the name is
+     kept so the rest of the sheet reads unchanged. Text that sits ON a saturated
+     region fill uses --on-accent, which must stay dark in every theme. */
+  --ink:#FAF9F7; --surface:#F1EEE9; --raised:#E6E1D9; --line:#D9D3C9;
+  --hairline:#EAE6DF;
+  --text:#16191C; --text-soft:#2F363D; --muted:#4E565E; --dim:#6B737C;
+  --on-accent:#1A1408;
+  /* Region fills — backgrounds only (rail segments, row ticks). */
   --south-bay:#F2B138; --peninsula:#6BCB9B; --sf:#5AA9E6; --east-bay:#E0719E; --outer:#9B8AC4;
+  /* Region inks — same hues darkened for text and borders on a light ground. */
+  --south-bay-ink:#8A5A00; --peninsula-ink:#0F6B47; --sf-ink:#1063A6;
+  --east-bay-ink:#A32C63; --outer-ink:#5B4A93;
   --display:"Barlow Condensed",system-ui,sans-serif;
   --body:"Inter",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
@@ -32,21 +41,21 @@ a{color:inherit}
   color:var(--dim);margin:0 0 10px}
 h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,7vw,64px);line-height:.94;
   letter-spacing:-.01em;margin:0 0 14px;text-transform:uppercase}
-h1 em{font-style:normal;color:#C9D6E1;display:block;font-weight:500}
+h1 em{font-style:normal;color:var(--muted);display:block;font-weight:500}
 .standfirst{color:var(--muted);max-width:56ch;margin:0;font-size:14px}
 
 /* ---------- distance rail (signature) ---------- */
 .rail{display:flex;margin:24px 0 0;height:34px;border-radius:3px;overflow:hidden}
 .rail-seg{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--display);
-  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
+  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-accent);
   cursor:pointer;border:0;transition:opacity .2s ease}
-.rail-seg[data-on="false"]{opacity:.22}
+.rail-seg[data-on="false"]{opacity:.3}
 .rail-seg:focus-visible{outline:2px solid var(--text);outline-offset:-3px}
 .rail-key{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;
   letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:7px}
 
 /* ---------- controls ---------- */
-.controls{position:sticky;top:0;z-index:10;background:rgba(14,18,22,.94);
+.controls{position:sticky;top:0;z-index:10;background:rgba(250,249,247,.94);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:13px 0;margin-bottom:6px}
 .controls-inner{max-width:1000px;margin:0 auto;padding:0 var(--pad);
   display:flex;flex-wrap:wrap;gap:11px;align-items:center}
@@ -55,16 +64,16 @@ h1 em{font-style:normal;color:#C9D6E1;display:block;font-weight:500}
   text-transform:uppercase;background:transparent;color:var(--muted);border:0;padding:7px 13px;
   cursor:pointer;white-space:nowrap}
 .axis button[aria-pressed="true"]{background:var(--text);color:var(--ink)}
-.axis button:focus-visible{outline:2px solid var(--sf);outline-offset:-2px}
-input[type="search"]{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--line);
+.axis button:focus-visible{outline:2px solid var(--sf-ink);outline-offset:-2px}
+input[type="search"]{flex:1;min-width:150px;background:#FFF;border:1px solid var(--line);
   border-radius:3px;color:var(--text);font-family:var(--body);font-size:13px;padding:7px 11px}
-input[type="search"]:focus{outline:none;border-color:var(--sf)}
+input[type="search"]:focus{outline:none;border-color:var(--sf-ink)}
 .chips{display:flex;flex-wrap:wrap;gap:5px;width:100%}
 .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   background:transparent;color:var(--dim);border:1px solid var(--line);border-radius:999px;
   padding:3.5px 10px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--raised);color:var(--text);border-color:var(--dim)}
-.chip:focus-visible{outline:2px solid var(--sf);outline-offset:1px}
+.chip:focus-visible{outline:2px solid var(--sf-ink);outline-offset:1px}
 .chipset-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--dim);align-self:center;margin-right:2px;min-width:52px}
 .count{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto;white-space:nowrap}
@@ -75,22 +84,22 @@ input[type="search"]:focus{outline:none;border-color:var(--sf)}
 .group{margin-top:32px}
 .group-head{display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
 .group-title{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:.01em;
-  text-transform:uppercase;margin:0;line-height:1;color:#FFF}
+  text-transform:uppercase;margin:0;line-height:1;color:var(--text)}
 .group-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
 .group-n{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto}
-.ev{display:grid;grid-template-columns:3px 1fr;border-bottom:1px solid var(--surface)}
+.ev{display:grid;grid-template-columns:3px 1fr;border-bottom:1px solid var(--hairline)}
 .ev-tick{background:var(--geo)}
 .ev-body{padding:13px 0 13px 14px}
-.ev-title{font-weight:600;font-size:16px;letter-spacing:-.005em;color:#FFF}
-.ev-title .star{color:var(--geo)}
+.ev-title{font-weight:600;font-size:16px;letter-spacing:-.005em;color:var(--text)}
+.ev-title .star{color:var(--geo-ink)}
 .ev-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:4px}
 .ev-meta .sep{color:var(--dim);padding:0 5px}
-.ev-note{color:#C4D0DA;font-size:13.5px;margin-top:6px;max-width:76ch}
+.ev-note{color:var(--text-soft);font-size:13.5px;margin-top:6px;max-width:76ch}
 .ev-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--dim);border:1px solid var(--line);border-radius:2px;padding:2px 6px}
-.tag.free{color:var(--peninsula);border-color:#2E4A3E}
-.tag.geo{color:var(--geo);border-color:var(--geo);opacity:.75}
+.tag.free{color:var(--peninsula-ink);border-color:#A6D8BF}
+.tag.geo{color:var(--geo-ink);border-color:var(--geo-ink);opacity:.9}
 .empty{padding:60px 0;text-align:center;color:var(--dim);font-family:var(--display);
   font-size:22px;text-transform:uppercase;letter-spacing:.08em}
 .empty span{display:block;font-family:var(--body);font-size:13px;text-transform:none;
@@ -129,7 +138,7 @@ footer{margin-top:56px;padding:20px 0 70px;border-top:1px solid var(--line);
     text-transform:uppercase;background:transparent;color:var(--muted);
     border:1px solid var(--line);border-radius:3px;padding:7px 13px;cursor:pointer;white-space:nowrap}
   .facet-toggle[aria-expanded="true"]{background:var(--raised);color:var(--text)}
-  .facet-toggle:focus-visible{outline:2px solid var(--sf);outline-offset:1px}
+  .facet-toggle:focus-visible{outline:2px solid var(--sf-ink);outline-offset:1px}
 }
 
 /* =====================================================================
@@ -202,7 +211,26 @@ footer{margin-top:56px;padding:20px 0 70px;border-top:1px solid var(--line);
 <script>
 const DAY=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-let GEOS=[],EV=[];
+let GEOS=[],EV=[],COLOR={};
+
+/* Region colours arrive in events.json from config/brief.yml, so a fork can
+   rename or re-rank regions without touching this file. The CSS vars are only
+   the fallback for a data file that predates `color`.
+   A fill is a background; an ink is the same hue darkened until it is legible
+   as text on the page ground. */
+const PAGE_BG=[250,249,247];
+const HEX=/^#[0-9A-Fa-f]{6}$/;
+const toRGB=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+function lum(c){const a=c.map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
+  return .2126*a[0]+.7152*a[1]+.0722*a[2];}
+function contrast(a,b){const l=[lum(a),lum(b)].sort((x,y)=>y-x);return (l[0]+.05)/(l[1]+.05);}
+function inkFor(hex){
+  let c=toRGB(hex),n=0;
+  while(contrast(c,PAGE_BG)<4.5&&n++<24)c=c.map(v=>Math.max(0,Math.round(v*.9)));
+  return "rgb("+c.join(",")+")";
+}
+const fill=id=>(COLOR[id]||{}).fill||"var(--"+id+")";
+const ink=id=>(COLOR[id]||{}).ink||"var(--"+id+"-ink)";
 let state={axis:"geo",geo:new Set(),type:new Set(),venue:new Set(),cost:new Set(),q:""};
 
 function readHash(){
@@ -298,7 +326,8 @@ function render(){
     for(const e of items){
       const row=document.createElement("article");
       row.className="ev";
-      row.style.setProperty("--geo","var(--"+e.geo+")");
+      row.style.setProperty("--geo",fill(e.geo));
+      row.style.setProperty("--geo-ink",ink(e.geo));
       const gl=(GEOS.find(x=>x.id===e.geo)||{}).label||e.geo;
       const SEP='<span class="sep">/</span>';
       const sv=shortVenue(e.venue),sc=shortCity(e.city);
@@ -350,6 +379,11 @@ function chipset(host,label,facet,vals){
 }
 function boot(d){
   GEOS=d.meta.geos;EV=d.events;
+  COLOR={};
+  for(const g of GEOS){
+    const ok=HEX.test(g.color||"");
+    COLOR[g.id]={fill:ok?g.color:"var(--"+g.id+")",ink:ok?inkFor(g.color):"var(--"+g.id+"-ink)"};
+  }
   readHash();
   document.getElementById("stamp").textContent=
     "Compiled "+fmtDate(d.meta.compiled)+" · "+EV.length+" listings";
@@ -361,7 +395,7 @@ function boot(d){
   for(const g of GEOS){
     const b=document.createElement("button");
     b.className="rail-seg";b.dataset.geo=g.id;
-    b.style.background=g.color||"var(--"+g.id+")";
+    b.style.background=fill(g.id);
     b.textContent=g.label;b.title=g.blurb||g.label;
     b.onclick=()=>{state.geo.has(g.id)?state.geo.delete(g.id):state.geo.add(g.id);render();};
     rail.appendChild(b);

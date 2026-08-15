@@ -21,8 +21,10 @@ version: 1
 meta:
   title: Bay Area Arts, Culture & Curiosities
   # Shown under the masthead. One sentence, plain.
+  # {origin} is replaced with origin.label at build time — leave it in and the
+  # line stays true after you move the starting point.
   standfirst: >-
-    Arts, music, and worthwhile oddities, ordered by remove from Mountain View.
+    Arts, music, and worthwhile oddities, ordered by remove from {origin}.
   maintainer: "@alexistosteson"
 
 # -----------------------------------------------------------------------------
@@ -43,6 +45,12 @@ schedule:
 # -----------------------------------------------------------------------------
 # `origin` anchors the geography. Regions are ordered by remove from it, and
 # that order becomes the default sort. Rank 1 is home.
+#
+# This block is the starting point, and it is the only place it is written down.
+# `scripts/build.py` copies `origin` and `regions` (id, label, rank, blurb,
+# color) into docs/events.json on every build, and the site reads them from
+# there — so moving the starting point means editing these lines and rebuilding.
+# Nothing in index.html needs to change, including the region colours.
 origin:
   label: Mountain View
   lat: 37.3861
