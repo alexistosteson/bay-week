@@ -1,4 +1,4 @@
-# Bay Area Week
+# Culture Vulture
 
 A weekly digest of arts, music, and worthwhile oddities across the Bay Area,
 ordered by remove from Mountain View.
