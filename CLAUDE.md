@@ -1,13 +1,24 @@
 # Project guidance for Claude Code
 
-**This is not the `new-swe-project` scaffold.** That skill refuses to retrofit a
-repo that already contains code, and this one arrived as a tarball with its own
-git history. There is no CONSTITUTION, no `docs/HANDOFF.md`, no ritual docs and
-no tooling floor — do not follow references to them, and do not assume the
-Planning or Execution rituals are in force here. Completing the scaffold is
-blocked on a real conflict; see the first row of [BACKLOG.md](BACKLOG.md).
+**This is not the `new-swe-project` scaffold, and does not owe one.** That skill
+refuses to retrofit a repo that already contains code, and this one arrived as a
+tarball with its own git history. There is no CONSTITUTION, no `docs/HANDOFF.md`
+and no ritual docs — do not follow references to them.
 
-Until then this file plus the backlog are the whole process surface.
+That is a deliberate position, not a gap. **Tier is declared per spec, not per
+project** (`delivery-tiers`), so most work here declares `probe` — short-form
+spec, worktree, build, behavioural check, evidence — which owes no plan, no
+NASA audit, no tier registry and no merge ritual. The build-tier tree becomes
+owed only when a spec here is declared `build`; see the parked row in
+[BACKLOG.md](BACKLOG.md) for the layout constraint that applies when it does.
+
+**Two things never relax, at any tier:**
+
+- **Short-form specs go in a root-level `specs/`, never `docs/`** — see below.
+- **`delivery-tiers`' floor:** a written spec, the owner's behavioural check, no
+  claim without command output proving it, and work never on `main`.
+
+This file plus the backlog are the whole process surface.
 
 ## The one thing that will bite you
 
