@@ -56,39 +56,47 @@ origin:
   lat: 37.3861
   lng: -122.0839
 
-# Region colours are sampled from viridis, running light at rank 1 to dark at
-# rank 5 — so remove-from-origin is carried by lightness, not hue alone. That
-# ordering is what keeps the regions apart for red-green colour blindness, which
-# flattens hue but leaves lightness intact. If you re-colour these, keep the
-# lightness ramp; picking five pretty hues at similar lightness is what the old
-# palette did, and two pairs of it collapsed under deuteranopia.
+# Region colours run light at rank 1 to dark at rank 5 — remove-from-origin is
+# carried by LIGHTNESS, not hue alone. That ordering is what keeps the regions
+# apart for red-green colour blindness, which flattens hue but leaves lightness
+# intact. If you re-colour these, keep the lightness ramp; picking five pretty
+# hues at similar lightness is what the pre-viridis palette did, and two pairs
+# of it collapsed under deuteranopia.
+#
+# This is the Almanac ramp (warm head, cool tail), which replaced viridis in
+# v0.5. Rank 4 turning indigo is deliberate: it separates the two darkest
+# regions on hue as well as lightness, where an all-warm ramp gets into
+# trouble. Measured with the Brettel/Viénot/Mollon two-plane dichromat
+# simulation, minimum CIE76 ΔE across all ten region pairs, worst case over
+# normal/protan/deutan/tritan: this ramp 22.7, viridis 18.9, an earlier
+# all-warm attempt 16.3. Re-colour the same way and do not ship below ~19.
 regions:
   - id: south-bay
     label: South Bay
     rank: 1
     blurb: San Jose, Saratoga, Sunnyvale, Mountain View
-    color: "#FDE725"
+    color: "#F7E6B0"
     includes: [San Jose, Santa Clara, Sunnyvale, Mountain View, Saratoga, Campbell, Los Gatos, Cupertino]
 
   - id: peninsula
     label: Peninsula
     rank: 2
     blurb: Los Altos to Colma
-    color: "#5EC962"
+    color: "#E29C46"
     includes: [Los Altos, Palo Alto, Menlo Park, Woodside, Redwood City, San Carlos, Belmont, San Mateo, Burlingame, Millbrae, Colma]
 
   - id: sf
     label: San Francisco
     rank: 3
     blurb: City and county
-    color: "#21918C"
+    color: "#B4472B"
     includes: [San Francisco]
 
   - id: east-bay
     label: Berkeley & Oakland
     rank: 4
     blurb: Across the bay
-    color: "#3B528B"
+    color: "#42406E"
     includes: [Oakland, Berkeley, Alameda, Emeryville, Albany, Concord, Walnut Creek]
 
   # `outer` is a holding pen, not a region. Things here must clear a higher bar
@@ -97,8 +105,192 @@ regions:
     label: Worth the Drive
     rank: 5
     blurb: Santa Cruz, Marin, North Bay
-    color: "#440154"
+    color: "#14161B"
     includes: [Santa Cruz, Felton, Mill Valley, San Rafael, Novato, San Anselmo, Sebastopol, Napa, Sonoma]
+
+# -----------------------------------------------------------------------------
+# HOW TO GET THERE
+# -----------------------------------------------------------------------------
+# Two authored tables the "how to get there" panel needs. `scripts/build.py`
+# copies this whole block onto docs/events.json as `meta.travel`, exactly as it
+# copies `regions` — the page holds no geography of its own, so a fork pointed
+# at another city replaces these lines and nothing else.
+#
+# Everything else is DERIVED in the page from lat/lng: haversine distance from
+# `origin`, drive time (miles / mph * 60 + 7, plus the peak penalty), the
+# corridor, the departure time, the warning. There is no live-traffic API and
+# there must not be one — every number here is a stated estimate, and the panel
+# says so.
+travel:
+  # Venues with real coordinates. A venue that is not here falls back to its
+  # city centroid below and the panel says "not surveyed" rather than bluffing.
+  # parking: easy | moderate | hard. transit_better marks a venue where transit
+  # genuinely beats driving from the origin — the panel promotes it when true.
+  venues:
+    "Excite Ballpark":                     {lat: 37.3266, lng: -121.8990, parking: hard,     parking_cost: "$15 lot",              transit: "VTA Race St · 8 min walk"}
+    "Habbas Law Epicenter at PayPal Park": {lat: 37.3510, lng: -121.9250, parking: hard,     parking_cost: "$25 event lot",        transit: "VTA Fruitdale · 15 min walk"}
+    "Mountain Winery":                     {lat: 37.2530, lng: -122.0430, parking: moderate, parking_cost: "$20, hillside shuttle"}
+    "PURE Nightclub":                      {lat: 37.3690, lng: -122.0290, parking: easy,     parking_cost: "street, free after 6", transit: "Caltrain Sunnyvale · 6 min walk"}
+    "Shoreline Amphitheatre":              {lat: 37.4265, lng: -122.0808, parking: hard,     parking_cost: "$40 lot",              transit: "bike path from Mtn View"}
+    "Hillview Soccer Field":               {lat: 37.3740, lng: -122.1000, parking: easy,     parking_cost: "free lot"}
+    "Colma Community Center":              {lat: 37.6770, lng: -122.4600, parking: easy,     parking_cost: "free lot",             transit: "BART Colma · 10 min walk",           transit_better: true}
+    "Filoli Summer Stage":                 {lat: 37.4720, lng: -122.3060, parking: moderate, parking_cost: "$10 grounds lot"}
+    "Courthouse Square":                   {lat: 37.4860, lng: -122.2300, parking: moderate, parking_cost: "garage, $2/hr",        transit: "Caltrain Redwood City · 3 min walk", transit_better: true}
+    "South B Street":                      {lat: 37.5640, lng: -122.3230, parking: moderate, parking_cost: "garage, free Sun",     transit: "Caltrain Hayward Park · 12 min walk", transit_better: true}
+    "The Guild Theatre":                   {lat: 37.4520, lng: -122.1830, parking: moderate, parking_cost: "street, 2 hr limit",   transit: "Caltrain Menlo Park · 4 min walk",   transit_better: true}
+    "Rinconada Park":                      {lat: 37.4460, lng: -122.1420, parking: easy,     parking_cost: "free lot",             transit: "Caltrain Palo Alto · 15 min walk"}
+    "Mitchell Park":                       {lat: 37.4230, lng: -122.1090, parking: easy,     parking_cost: "free lot"}
+    "Bill Graham Civic Auditorium":        {lat: 37.7784, lng: -122.4177, parking: hard,     parking_cost: "$45 Civic Center garage", transit: "BART/Muni Civic Center · 3 min walk", transit_better: true}
+    "Bottom of the Hill":                  {lat: 37.7648, lng: -122.3960, parking: moderate, parking_cost: "street, free",         transit: "Muni 22 · 2 min walk"}
+    "Miner Auditorium, SFJAZZ":            {lat: 37.7763, lng: -122.4212, parking: hard,     parking_cost: "$40 garage",           transit: "Muni Van Ness · 4 min walk",         transit_better: true}
+    "Stern Grove Festival":                {lat: 37.7355, lng: -122.4780, parking: hard,     parking_cost: "street only, arrive early", transit: "Muni K/L then 28 · 8 min walk", transit_better: true}
+    "Hall of Flowers, Golden Gate Park":   {lat: 37.7700, lng: -122.4670, parking: hard,     parking_cost: "$8 concourse garage",  transit: "Muni N Judah · 10 min walk",         transit_better: true}
+    "Valencia St, 17th to 20th":           {lat: 37.7620, lng: -122.4210, parking: hard,     parking_cost: "street, effectively none", transit: "BART 16th St · 5 min walk",      transit_better: true}
+    "Saint Joseph's Art Society":          {lat: 37.7770, lng: -122.4090, parking: hard,     parking_cost: "$35 garage",           transit: "BART Civic Center · 9 min walk",     transit_better: true}
+    "Café du Nord":                        {lat: 37.7690, lng: -122.4310, parking: hard,     parking_cost: "street",               transit: "Muni Church St · 4 min walk",        transit_better: true}
+    "Rickshaw Stop":                       {lat: 37.7760, lng: -122.4200, parking: hard,     parking_cost: "$30 garage",           transit: "Muni Van Ness · 5 min walk",         transit_better: true}
+    "California Academy of Sciences":      {lat: 37.7699, lng: -122.4661, parking: hard,     parking_cost: "$8 garage",            transit: "Muni 5 / 44 · 3 min walk",           transit_better: true}
+    "Grant Ave, California to Pacific":    {lat: 37.7940, lng: -122.4060, parking: hard,     parking_cost: "garage, $8/hr",        transit: "Muni 30 / 45 · 2 min walk",          transit_better: true}
+    "Dance Mission Theater":               {lat: 37.7590, lng: -122.4120, parking: moderate, parking_cost: "street",               transit: "BART 24th St · 6 min walk",          transit_better: true}
+    "The Warfield":                        {lat: 37.7826, lng: -122.4104, parking: hard,     parking_cost: "$40 garage",           transit: "BART Powell · 4 min walk",           transit_better: true}
+    "The Independent":                     {lat: 37.7760, lng: -122.4380, parking: moderate, parking_cost: "street",               transit: "Muni 5 / 22 · 2 min walk",           transit_better: true}
+    "The Chapel":                          {lat: 37.7570, lng: -122.4210, parking: hard,     parking_cost: "street",               transit: "BART 24th St · 7 min walk",          transit_better: true}
+    "The Midway":                          {lat: 37.7480, lng: -122.3880, parking: easy,     parking_cost: "$20 lot",              transit: "Muni T · 12 min walk"}
+    "The Great Northern":                  {lat: 37.7710, lng: -122.4130, parking: hard,     parking_cost: "$30 garage",           transit: "BART Civic Center · 8 min walk",     transit_better: true}
+    "North Beach":                         {lat: 37.8000, lng: -122.4100, parking: hard,     parking_cost: "garage, $10/hr",       transit: "Muni 8 / 30 · 3 min walk",           transit_better: true}
+    "Castro Theatre":                      {lat: 37.7620, lng: -122.4350, parking: hard,     parking_cost: "street",               transit: "Muni Castro · 1 min walk",           transit_better: true}
+    "War Memorial Opera House":            {lat: 37.7785, lng: -122.4207, parking: hard,     parking_cost: "$45 garage",           transit: "BART Civic Center · 6 min walk",     transit_better: true}
+    "August Hall":                         {lat: 37.7860, lng: -122.4100, parking: hard,     parking_cost: "$40 garage",           transit: "BART Powell · 3 min walk",           transit_better: true}
+    "F8":                                  {lat: 37.7730, lng: -122.4130, parking: hard,     parking_cost: "street",               transit: "Muni 9 / 12 · 5 min walk",           transit_better: true}
+    "JFK Drive, Golden Gate Park":         {lat: 37.7710, lng: -122.4720, parking: hard,     parking_cost: "street, west end",     transit: "Muni N Judah · 12 min walk",         transit_better: true}
+    "Yoshi's":                             {lat: 37.7960, lng: -122.2780, parking: moderate, parking_cost: "$15 lot",              transit: "BART 12th St · 12 min walk",         transit_better: true}
+    "Raimondi Park":                       {lat: 37.8110, lng: -122.2960, parking: easy,     parking_cost: "street, free",         transit: "BART West Oakland · 15 min walk"}
+    "Oakland Arena":                       {lat: 37.7503, lng: -122.2030, parking: moderate, parking_cost: "$30 lot",              transit: "BART Coliseum · 8 min walk",         transit_better: true}
+    "Oakland Museum of California":        {lat: 37.7975, lng: -122.2640, parking: moderate, parking_cost: "$5 garage",            transit: "BART Lake Merritt · 2 min walk",     transit_better: true}
+    "Jingletown":                          {lat: 37.7780, lng: -122.2400, parking: easy,     parking_cost: "street, free",         transit: "BART Fruitvale · 15 min walk"}
+    "High 5ive Rooftop Bar":               {lat: 37.8050, lng: -122.2710, parking: hard,     parking_cost: "garage, $12",          transit: "BART 19th St · 4 min walk",          transit_better: true}
+    "Frank H. Ogawa Plaza":                {lat: 37.8050, lng: -122.2720, parking: hard,     parking_cost: "garage, $12",          transit: "BART 12th St · 1 min walk",          transit_better: true}
+    "Fox Theater":                         {lat: 37.8080, lng: -122.2710, parking: hard,     parking_cost: "$25 garage",           transit: "BART 19th St · 2 min walk",          transit_better: true}
+    "Lake Merritt Pergola":                {lat: 37.8060, lng: -122.2510, parking: easy,     parking_cost: "street, free",         transit: "BART Lake Merritt · 18 min walk"}
+    "Greek Theatre, UC Berkeley":          {lat: 37.8735, lng: -122.2540, parking: hard,     parking_cost: "campus lots, $20",     transit: "BART Dwntn Berkeley · 15 min walk",  transit_better: true}
+    "Toyota Pavilion at Concord":          {lat: 37.9700, lng: -121.9560, parking: moderate, parking_cost: "$25 lot",              transit: "BART Concord + shuttle · 20 min"}
+    "Sweetwater Music Hall":               {lat: 37.9060, lng: -122.5450, parking: moderate, parking_cost: "street, 2 hr limit",   transit: "Sausalito ferry + bus 17"}
+    "Quarry Amphitheater":                 {lat: 36.9990, lng: -122.0570, parking: hard,     parking_cost: "$10 campus lot"}
+    "Felton Music Hall":                   {lat: 37.0510, lng: -122.0730, parking: easy,     parking_cost: "street, free"}
+    "HopMonk Tavern":                      {lat: 38.1080, lng: -122.5690, parking: easy,     parking_cost: "free lot"}
+    "Santa Cruz Civic Auditorium":         {lat: 36.9730, lng: -122.0250, parking: moderate, parking_cost: "garage, $1/hr"}
+    "Marin County Fairgrounds":            {lat: 37.9990, lng: -122.5230, parking: moderate, parking_cost: "$10 lot",              transit: "SMART San Rafael · 12 min walk"}
+
+  # Fallback centroids for a venue with no entry above.
+  cities:
+    San Jose:      {lat: 37.3382, lng: -121.8863}
+    Los Altos:     {lat: 37.3852, lng: -122.1141}
+    Colma:         {lat: 37.6769, lng: -122.4600}
+    San Francisco: {lat: 37.7749, lng: -122.4194}
+    Oakland:       {lat: 37.8044, lng: -122.2712}
+    Mill Valley:   {lat: 37.9061, lng: -122.5450}
+    Sunnyvale:     {lat: 37.3688, lng: -122.0363}
+    Woodside:      {lat: 37.4297, lng: -122.2539}
+    Redwood City:  {lat: 37.4852, lng: -122.2364}
+    Alameda:       {lat: 37.7652, lng: -122.2416}
+    Santa Cruz:    {lat: 36.9741, lng: -122.0308}
+    Felton:        {lat: 37.0512, lng: -122.0736}
+    Novato:        {lat: 38.1074, lng: -122.5697}
+    Mountain View: {lat: 37.3861, lng: -122.0839}
+    Saratoga:      {lat: 37.2638, lng: -122.0230}
+    San Mateo:     {lat: 37.5630, lng: -122.3255}
+    Berkeley:      {lat: 37.8715, lng: -122.2730}
+    Concord:       {lat: 37.9780, lng: -122.0311}
+    Menlo Park:    {lat: 37.4530, lng: -122.1817}
+    Palo Alto:     {lat: 37.4419, lng: -122.1430}
+    San Rafael:    {lat: 37.9735, lng: -122.5311}
+
+  # Corridors, in priority order — FIRST MATCH WINS, so the specific boxes come
+  # before the broad ones. `box` is pure geometry against the destination; every
+  # bound is optional, mins inclusive and maxes exclusive. `mph` is an effective
+  # door-to-door average,
+  # not a speed limit. `peak` windows are decimal hours of the DEPARTURE time,
+  # `when` is weekday or weekend, `add` is minutes.
+  corridors:
+    - id: "17"
+      label: CA-17 over the hill
+      mph: 36
+      box: {lat_max: 37.16}
+      peak:
+        - {from: 15, to: 19, when: weekday, add: 20, note: 17 stacks up at Los Gatos from mid-afternoon}
+        - {from: 17, to: 21, when: weekend, add: 14, note: weekend beach traffic northbound in the evening}
+
+    - id: 85-9
+      label: CA-85 → CA-9
+      mph: 38
+      box: {lat_max: 37.34, lng_max: -122.00}
+      peak:
+        - {from: 16, to: 19, when: weekday, add: 10, note: 85 southbound thickens after 4}
+
+    - id: 101S
+      label: US-101 S / CA-85
+      mph: 40
+      box: {lat_max: 37.40, lng_min: -122.06}
+      peak:
+        - {from: 16, to: 19, when: weekday, add: 16, note: 101 south through Sunnyvale is stop-and-go from 4}
+
+    - id: 280N
+      label: I-280 N
+      mph: 52
+      box: {lat_min: 37.39, lat_max: 37.72, lng_max: -122.15}
+      peak:
+        - {from: 16.5, to: 18.5, when: weekday, add: 10, note: 280 north loosens up after 6}
+
+    - id: 101N-pen
+      label: US-101 N
+      mph: 42
+      box: {lat_min: 37.39, lat_max: 37.72}
+      peak:
+        - {from: 15.5, to: 19, when: weekday, add: 20, note: 101 north is the worst of the peninsula — 280 is usually faster}
+
+    - id: 101N-sf
+      label: US-101 N → I-280
+      mph: 42
+      box: {lat_min: 37.70, lng_max: -122.34}
+      peak:
+        - {from: 15.5, to: 19.5, when: weekday, add: 24, note: "101 north clogs from Redwood City at 3:30; the 280 split at Daly City is the second squeeze"}
+        - {from: 11, to: 14, when: weekend, add: 12, note: weekend midday backs up into the city}
+
+    - id: "24"
+      label: I-880 N → CA-24
+      mph: 44
+      toll: $8 Dumbarton, westbound only
+      box: {lat_min: 37.90, lng_min: -122.10}
+      peak:
+        - {from: 16, to: 19, when: weekday, add: 22, note: the Caldecott is the pinch — eastbound clears by 7}
+
+    - id: gg
+      label: US-101 N → Golden Gate Bridge
+      mph: 44
+      toll: $10 bridge toll, southbound only
+      box: {lat_min: 37.85, lng_max: -122.40}
+      peak:
+        - {from: 15.5, to: 19, when: weekday, add: 20, note: Waldo Grade northbound is the bottleneck}
+
+    - id: "880"
+      label: CA-84 Dumbarton → I-880 N
+      mph: 42
+      toll: $8 Dumbarton, westbound only
+      box: {lng_min: -122.36}
+      peak:
+        - {from: 16, to: 19, when: weekday, add: 18, note: Dumbarton eastbound is fine; the toll and the queue are on the way home}
+
+  # Anything closer than local_miles never touches a freeway corridor. Picking
+  # one by geometry alone put 1-mile trips on the Dumbarton bridge.
+  local_miles: 6
+  local:
+    id: local
+    label: surface streets
+    mph: 26
+    peak:
+      - {from: 16, to: 18.5, when: weekday, add: 5, note: local arterials get slow around the school and commute peak}
+  # Used when no corridor box matches at all.
+  fallback: {id: road, label: surface roads, mph: 38, peak: []}
 
 # -----------------------------------------------------------------------------
 # WHAT — the taste layer
