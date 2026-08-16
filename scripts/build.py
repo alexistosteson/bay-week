@@ -68,6 +68,17 @@ def apply_brief(data, brief):
             notes.append(f"geos -> {len(geos)} regions from brief.yml")
         meta["geos"] = geos
 
+    # The travel tables (venues, city centroids, corridors) are geography too, and
+    # index.html holds none of its own — so they ride along exactly like regions.
+    travel = brief.get("travel")
+    if isinstance(travel, dict) and travel:
+        if meta.get("travel") != travel:
+            notes.append(
+                f"travel -> {len(travel.get('venues') or {})} venues, "
+                f"{len(travel.get('corridors') or [])} corridors from brief.yml"
+            )
+        meta["travel"] = travel
+
     standfirst = (brief.get("meta") or {}).get("standfirst")
     if standfirst:
         label = (meta.get("origin") or {}).get("label", "")
