@@ -35,6 +35,8 @@ tier_1_venues:
     - { name: Castro Theatre,         url: "https://www.castrotheatre.com/",           cap: 1400 }
     - { name: Stern Grove Festival,   url: "https://www.sterngrove.org/",              cap: 10000,
         note: "Free but lottery-ticketed. Always state the access mechanism." }
+    - { name: Roxie Theater,          url: "https://roxie.com/",                       cap: null,
+        note: "Repertory and one-off screenings. Ignore the first-run showtimes." }
 
   east_bay:
     - { name: Fox Theater,            url: "https://thefoxoakland.com/",               cap: 2800 }
@@ -45,6 +47,12 @@ tier_1_venues:
     - { name: Thee Stork Club,        url: "https://www.theestorkclubopakland.com/",   cap: 150 }
     - { name: Ivy Room,               url: "https://ivyroom.com/",                     cap: 150 }
     - { name: Oakland Museum of California, url: "https://museumca.org/",              cap: null }
+    - { name: Freight & Salvage,      url: "https://thefreight.org/",                  cap: null }
+    - { name: The UC Theatre,         url: "https://theuctheatre.org/",                cap: null }
+    - { name: Starline Social Club,   url: "https://starlinesocialclub.com/",          cap: null }
+    - { name: BAMPFA,                 url: "https://bampfa.org/",                      cap: null,
+        note: "Film programme and exhibitions both. Cite the series, not just the title." }
+    - { name: Berkeley Rep,           url: "https://berkeleyrep.org/",                 cap: null }
 
   peninsula:
     - { name: The Guild Theatre,      url: "https://guildtheatre.com/",                cap: 500 }
@@ -59,6 +67,13 @@ tier_1_venues:
     - { name: The Ritz,               url: "https://www.ritzsanjose.com/",             cap: 500 }
     - { name: Hammer Theatre Center,  url: "https://hammertheatre.com/",               cap: 500 }
 
+  # The `outer` region — Santa Cruz, Marin, North Bay. Thin by design: only
+  # things worth the drive clear the brief, so this list stays short.
+  outer:
+    - { name: The Catalyst,           url: "https://catalystclub.com/",                cap: null }
+    - { name: Felton Music Hall,      url: "https://feltonmusichall.com/",             cap: null }
+    - { name: Sweetwater Music Hall,  url: "https://sweetwatermusichall.org/",         cap: null }
+
 # -----------------------------------------------------------------------------
 # TIER 2 — regional aggregators. Best for free and community events that never
 # reach a ticketing platform.
@@ -70,6 +85,17 @@ tier_2_aggregators:
   - { name: Downtown SF,      url: "https://downtownsf.org/events",  covers: [sf],                                  strength: "weekday downtown programming" }
   - { name: Visit Oakland,    url: "https://www.visitoakland.com/events/", covers: [east-bay],                      strength: "festivals and street events" }
   - { name: sanjose.events,   url: "https://sanjose.events/",        covers: [south-bay],                           strength: "South Bay breadth" }
+
+  # Editorial picks rather than listings. They surface the thing worth going to
+  # when the calendars only say what is on — useful for the digest's judgement,
+  # never sufficient on their own. Verify date, time and price against tier 1.
+  - { name: The SF Standard, url: "https://sfstandard.com/arts-culture/", covers: [sf],                             strength: "critics' picks and openings" }
+  - { name: 48 Hills,        url: "https://48hills.org/",           covers: [sf, east-bay],                        strength: "underground and DIY, the venues nobody aggregates" }
+  - { name: KQED Arts,       url: "https://www.kqed.org/arts",      covers: [sf, east-bay, peninsula, south-bay],  strength: "week-ahead roundups across the whole region" }
+  - { name: Chronicle Datebook, url: "https://datebook.sfchronicle.com/", covers: [sf, east-bay, peninsula, south-bay], strength: "breadth and reviews",
+      note: "Paywalled. Use for what exists and what is worth seeing; get the details elsewhere." }
+  - { name: East Bay Express, url: "https://eastbayexpress.com/",   covers: [east-bay],                            strength: "Oakland and Berkeley listings" }
+  - { name: The Other SF,    url: "https://theothersf.com/",        covers: [sf],                                  strength: "small and offbeat programming" }
 
 # -----------------------------------------------------------------------------
 # TIER 3 — ticketing feeds. Broad coverage, thin detail. Snippets often omit
