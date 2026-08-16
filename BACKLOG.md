@@ -1,6 +1,6 @@
 ---
 state: active
-next: Nothing blocking. Tooling floor established 2026-08-15 (`ruff.toml`, F/ARG/B/RUF, exit 0). Next substantive work is the weekly digest run — `validate.py` then `build.py`. Specs go in a root-level `specs/` dir, never `docs/` (the Pages web root); each declares its own tier per `delivery-tiers`.
+next: Nothing blocking. To publish a week: run the research prompt in `prompts/weekly-research.md` against `config/brief.yml`, save the result as `data/<monday>.json`, then in this repo run `python3 scripts/validate.py && python3 scripts/build.py` and commit — see [CLAUDE.md](CLAUDE.md) for the pipeline. Specs go in a root-level `specs/`, never `docs/` (the Pages web root); each declares its own tier per `delivery-tiers`.
 tool: claude-code
 updated: 2026-08-15
 ---
