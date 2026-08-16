@@ -1,0 +1,81 @@
+# Project guidance for Claude Code
+
+**This is not the `new-swe-project` scaffold.** That skill refuses to retrofit a
+repo that already contains code, and this one arrived as a tarball with its own
+git history. There is no CONSTITUTION, no `docs/HANDOFF.md`, no ritual docs and
+no tooling floor — do not follow references to them, and do not assume the
+Planning or Execution rituals are in force here. Completing the scaffold is
+blocked on a real conflict; see the first row of [BACKLOG.md](BACKLOG.md).
+
+Until then this file plus the backlog are the whole process surface.
+
+## The one thing that will bite you
+
+**`docs/` is the GitHub Pages web root**, not a documentation folder. Pages
+serves `main` + `/docs`. Anything written there is published at
+`alexistosteson.github.io/culture-vulture/…`. Process docs, specs, plans and
+notes must not go in `docs/`.
+
+## What the project is
+
+A weekly Bay Area arts digest: one HTML file, one JSON file, no framework, no
+backend, no build step beyond copying a file. `docs/index.html` fetches
+`events.json` beside it and renders.
+
+```
+config/brief.yml     editorial + geographic config — the source of truth for WHERE
+prompts/             the research prompt an LLM runs against brief.yml
+data/YYYY-MM-DD.json one file per week — the events and their window
+scripts/validate.py  schema + vocabulary + window checks (runs in CI)
+scripts/build.py     projects brief.yml over the data file -> docs/events.json
+docs/                THE PUBLISHED SITE — index.html + events.json only
+handoff/             design port package (not published; root-level, not docs/)
+```
+
+Weekly run:
+
+```bash
+python3 scripts/validate.py     # expect: 67 events, 0 errors, 0 warnings
+python3 scripts/build.py        # publishes newest data/ file to docs/
+```
+
+`validate.py` is the only automated gate in the project until the tooling floor
+exists. It runs in CI on every push.
+
+## Conventions that are load-bearing
+
+- **`config/brief.yml` drives the site's geography.** Origin, region names,
+  order and colours are copied into `docs/events.json` by `build.py` on every
+  build. `index.html` contains no Bay Area geography — repointing the site at
+  another city is a config edit plus a rebuild. Do not hardcode geography into
+  the page; it is the project's whole premise.
+- **`docs/events.json` is derived.** Editing it directly is overwritten by the
+  next build. Region changes belong in `brief.yml`.
+- **Light theme only, and no `prefers-color-scheme` block.** Per the global
+  rule in `~/.claude/CLAUDE.md`.
+- **Region colour must not be the only encoding, and must keep its lightness
+  ramp.** The palette is viridis, ordered light-to-dark by distance from origin,
+  so it survives red-green colour blindness; the rationale and the measurements
+  are in `handoff/claude-design/color-schemes.md` and in the comment above
+  `regions:` in `brief.yml`. Re-colouring is fine — flattening the ramp is not.
+- **Region inks and label colours are derived at runtime** from whatever hex the
+  config supplies, so a fork with arbitrary colours still gets readable text.
+
+## Testing
+
+There is no test suite. Verification is `scripts/validate.py` plus looking at
+the page. To view it locally — `index.html` fetches `events.json`, so `file://`
+does not work:
+
+```bash
+cd docs && python3 -m http.server
+```
+
+Serve on a fresh port when re-checking a change; `events.json` caches hard
+enough to show you the previous build.
+
+**Screenshots of the page at a named viewport need care.** Headless Chrome does
+not honour the mobile layout viewport — `--window-size=390,1500` yields a PNG
+that is exactly 390px wide but laid out at desktop width and cropped, and the
+file's dimensions look right, so nothing catches it but opening the image. Load
+the page in a fixed-width `<iframe>` and screenshot the wrapper.
