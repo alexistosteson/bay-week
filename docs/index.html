@@ -61,10 +61,13 @@ button{font:inherit;cursor:pointer}
 .axis button:focus-visible{outline:2px solid var(--text);outline-offset:-2px}
 .count{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--label);white-space:nowrap}
-.plan-open{margin-left:auto;background:none;border:1px solid var(--line);border-radius:2px;
-  color:var(--soft);font-family:var(--mono);font-size:10px;letter-spacing:.12em;
-  text-transform:uppercase;padding:6px 12px;white-space:nowrap}
-.plan-open:hover{border-color:var(--text);color:var(--text)}
+/* The shortlist is the only thing on the page you can lose by navigating away,
+   so it gets the one solid button in the chrome rather than a ghost outline. */
+.plan-open{margin-left:auto;background:var(--text);border:1px solid var(--text);border-radius:2px;
+  color:var(--ground);font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;padding:8px 16px;white-space:nowrap}
+.plan-open:hover{background:#000;border-color:#000}
+.plan-open:focus-visible{outline:2px solid var(--text);outline-offset:2px}
 .bar-search,.bar-para{display:none}
 
 /* ---------- masthead ---------- */
@@ -252,7 +255,7 @@ h1{font-family:var(--display);font-weight:700;font-size:62px;line-height:.92;
     border-radius:2px;padding:9px 10px;font-family:var(--body);font-size:15px;color:var(--text)}
   .bar-para{display:block;background:none;border:1px solid var(--rule);border-radius:2px;
     width:40px;height:40px;font-family:var(--display);font-size:20px;color:var(--text);flex-shrink:0}
-  .plan-open{margin-left:0;padding:6px 9px;font-size:9.5px}
+  .plan-open{margin-left:0;padding:8px 11px;font-size:9.5px;letter-spacing:.1em}
 
   .masthead{padding:22px 0 10px;gap:0;border-bottom-width:3px}
   .masthead .para{display:none}
