@@ -72,10 +72,23 @@ exists. It runs in CI on every push.
 - **Region inks and label colours are derived at runtime** from whatever hex the
   config supplies, so a fork with arbitrary colours still gets readable text.
 
+## Tooling floor
+
+The one check that runs without a human. Run it before any merge, and any time
+`ruff.toml` is edited:
+
+```bash
+python3 ~/.claude/bin/tool-floor.py
+```
+
+Exit `0` met · `1` findings · **`2` not enforceable** — tool missing, config
+missing, or a required rule family removed. Treat exit 2 as a hard failure, not
+a skip: it means nothing is checking. Never resolve it by narrowing `ruff.toml`.
+
 ## Testing
 
-There is no test suite. Verification is `scripts/validate.py` plus looking at
-the page. To view it locally — `index.html` fetches `events.json`, so `file://`
+There is no test suite. Verification is `scripts/validate.py`, the tooling floor
+above, plus looking at the page. To view it locally — `index.html` fetches `events.json`, so `file://`
 does not work:
 
 ```bash

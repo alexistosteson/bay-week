@@ -1,0 +1,7 @@
+# Tool floor — see ~/.claude/bin/tool-floor.py for why these families are required.
+# Verified by `tool-floor.py`, which FAILS if any required family is removed.
+# Add rules freely; removing a required one is a floor violation, not a preference.
+line-length = 100
+
+[lint]
+select = ["F", "ARG", "B", "RUF"]
