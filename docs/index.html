@@ -26,6 +26,10 @@
   --label:#8A8073;         /* eyebrow, counts, facet labels */
   --stand:#4B453B;         /* standfirst */
   --on-accent:#1A1408;     /* dark text on a region fill */
+  /* One warm grey for the whole shortlist mechanism — the saved mark on a row
+     and the Plan button it feeds. Filled, so it reads as chosen, but below the
+     ink the masthead and the pressed filter chips use. 7.4:1 on the ground. */
+  --plan:#57514A;
   /* The get-there panel is the one cool-grey surface: it is instrument copy,
      not editorial, and the shift in ground is the signal. */
   --panel-ink:#101418; --panel-text:#252D34; --panel-meta:#4C555E;
@@ -65,7 +69,7 @@ button{font:inherit;cursor:pointer}
    so it is filled rather than outlined — but in warm grey, not the full ink the
    masthead and the pressed chips use. It should read as available, not urgent.
    7.4:1 against the ground, so the label still clears the floor. */
-.plan-open{margin-left:auto;background:#57514A;border:1px solid #57514A;border-radius:2px;
+.plan-open{margin-left:auto;background:var(--plan);border:1px solid var(--plan);border-radius:2px;
   color:var(--ground);font-family:var(--mono);font-size:10px;letter-spacing:.12em;
   text-transform:uppercase;padding:7px 14px;white-space:nowrap}
 .plan-open:hover{background:var(--text);border-color:var(--text)}
@@ -141,7 +145,8 @@ h1{font-family:var(--display);font-weight:700;font-size:62px;line-height:.92;
 .save{background:none;color:var(--soft);border:1px solid var(--line);border-radius:2px;
   padding:6px 10px;letter-spacing:.12em;text-transform:uppercase;font-size:10.5px;white-space:nowrap}
 .save:hover{border-color:var(--text);color:var(--text)}
-.save[aria-pressed="true"]{background:var(--text);color:var(--ground);border-color:var(--text)}
+.save[aria-pressed="true"]{background:var(--plan);color:var(--ground);border-color:var(--plan)}
+.save[aria-pressed="true"]:hover{background:var(--text);border-color:var(--text)}
 .ev-action{display:none}
 
 .empty{font-family:var(--display);font-size:25px;color:var(--label);text-align:center;padding:70px 0}
