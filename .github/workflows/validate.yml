@@ -2,7 +2,11 @@ name: validate
 
 on:
   push:
-    paths: ['data/**', 'config/**', 'scripts/**', 'schema/**']
+    # Keep `ruff.toml` and this workflow in the filter: a commit that narrows
+    # the tool floor, or edits the gate itself, is exactly the change CI must
+    # not skip. `pull_request` is deliberately unfiltered.
+    paths: ['data/**', 'config/**', 'scripts/**', 'schema/**', 'ruff.toml',
+            '.github/workflows/**']
   pull_request:
   workflow_dispatch:
 
