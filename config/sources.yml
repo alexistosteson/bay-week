@@ -23,16 +23,20 @@ tier_1_venues:
     - { name: The Chapel,             url: "https://thechapelsf.com/calendar/",        cap: 500 }
     - { name: Bottom of the Hill,     url: "https://www.bottomofthehill.com/calendar.html", cap: 350,
         note: "Announced closure at end of 2026 — worth flagging while it lasts." }
-    - { name: Rickshaw Stop,          url: "https://rickshawstop.com/",                cap: 400 }
+    - { name: Rickshaw Stop, url: "https://rickshawstop.com/calendar/", cap: 400,
+        note: "The bare domain serves a stale 2024 calendar. Always use /calendar/." }
     - { name: Bimbo's 365 Club,       url: "https://bimbos365club.com/",               cap: 500 }
     - { name: Brick & Mortar Music Hall, url: "https://www.brickandmortarmusic.com/",  cap: 300 }
     - { name: Café du Nord,           url: "https://www.cafedunord.com/",              cap: 300 }
-    - { name: DNA Lounge,             url: "https://www.dnalounge.com/calendar/",      cap: 500 }
+    - { name: DNA Lounge, url: "https://www.dnalounge.com/calendar/{YYYY}/{MM}.html", cap: 500,
+        note: "Build the URL for the target month, zero-padded. /calendar/ alone is only a year index." }
     - { name: Public Works,           url: "https://publicsf.com/",                    cap: 800 }
     - { name: August Hall,            url: "https://www.augusthallsf.com/",            cap: 750 }
     - { name: The Warfield,           url: "https://www.thewarfieldtheatre.com/",      cap: 2300 }
-    - { name: SFJAZZ,                 url: "https://www.sfjazz.org/",                  cap: 700 }
-    - { name: Castro Theatre,         url: "https://www.castrotheatre.com/",           cap: 1400 }
+    - { name: SFJAZZ, url: "https://www.jambase.com/venue/miner-auditorium-sfjazz-center", cap: 700,
+        note: "sfjazz.org 403s on every path — this JamBase mirror is the only fetchable source. Summer Sessions end mid-August and the fall season starts in September, so an empty late-August week here is real, not a fetch failure." }
+    - { name: Castro Theatre, url: "https://thecastro.com/", cap: 1400,
+        note: "castrotheatre.com 301-redirects here; fetch the new domain directly." }
     - { name: Stern Grove Festival,   url: "https://www.sterngrove.org/lineup2026",    cap: 10000,
         note: "Free but lottery-ticketed — always state the access mechanism (GA lottery opens six weeks out; a 1,500-ticket Community Box Office goes first-come on the day). SEASON IS MID-JUNE TO MID-AUGUST: 2026 ran Jun 14–Aug 16 and closed with Al Green. Nothing here after that, whatever the homepage still says." }
     - { name: Roxie Theater,          url: "https://roxie.com/",                       cap: null,
@@ -45,27 +49,38 @@ tier_1_venues:
     - { name: The Greek Theatre,      url: "https://thegreekberkeley.com/",            cap: 8500 }
     - { name: The New Parkway,        url: "https://thenewparkway.com/",               cap: 200 }
     - { name: Thee Stork Club,        url: "https://www.theestorkclubopakland.com/",   cap: 150 }
-    - { name: Ivy Room,               url: "https://ivyroom.com/",                     cap: 150 }
-    - { name: Oakland Museum of California, url: "https://museumca.org/",              cap: null }
-    - { name: Freight & Salvage,      url: "https://thefreight.org/",                  cap: null }
+    - { name: Ivy Room, url: "https://www.jambase.com/venue/the-ivy-room", cap: 150,
+        note: "ivyroom.com/shows renders client-side and fetches empty." }
+    - { name: Oakland Museum of California, url: "https://museumca.org/on-view/", cap: null }
+    - { name: Freight & Salvage, url: "https://www.jambase.com/venue/freight-salvage", cap: 600,
+        note: "thefreight.org 403s. A seated listening room, not a club." }
     - { name: The UC Theatre,         url: "https://theuctheatre.org/",                cap: null }
-    - { name: Starline Social Club,   url: "https://starlinesocialclub.com/",          cap: null }
+    # Starline Social Club — CLOSED. Both spaces are marked closed and the last
+    # listed show was 11 June 2026. Left commented so it is not re-added by mistake.
+    # - { name: Starline Social Club, url: "https://starlinesocialclub.com/", cap: null }
     - { name: BAMPFA,                 url: "https://bampfa.org/",                      cap: null,
         note: "Film programme and exhibitions both. Cite the series, not just the title." }
-    - { name: Berkeley Rep,           url: "https://berkeleyrep.org/",                 cap: null }
+    - { name: Berkeley Rep, url: "https://berkeleyrep.org/season/", cap: null,
+        note: "/whats-on/ is gone; /season/ is the calendar." }
 
   peninsula:
     - { name: The Guild Theatre,      url: "https://guildtheatre.com/",                cap: 500 }
-    - { name: Filoli,                 url: "https://filoli.org/events/",               cap: null }
+    - { name: Filoli, url: "https://feverup.com/en/san-francisco/venue/filoli-historic-house-garden", cap: null,
+        note: "filoli.org 403s. Fever carries only the ticketed programming, not the full calendar." }
     - { name: Music on the Square,    url: "https://www.redwoodcity.org/",             cap: null, free: true }
 
   south_bay:
-    - { name: Shoreline Amphitheatre, url: "https://www.livenation.com/venue/",        cap: 22000 }
-    - { name: Mountain Winery,        url: "https://mountainwinery.com/",              cap: 2500 }
+    - { name: Shoreline Amphitheatre, url: "https://www.jambase.com/venue/shoreline-amphitheatre", cap: 22000,
+        note: "mountainviewamphitheater.com 403s and shorelineamphitheatre.com fetches empty." }
+    - { name: Mountain Winery, url: "https://www.jambase.com/venue/mountain-winery", cap: 2500,
+        note: "Official site is JS-rendered and fetches empty; /events/ 403s. This mirror carries support billing." }
     - { name: SAP Center,             url: "https://www.sapcenter.com/",               cap: 17000 }
-    - { name: San Jose Civic,         url: "https://sanjosetheaters.org/",             cap: 3000 }
-    - { name: The Ritz,               url: "https://www.ritzsanjose.com/",             cap: 500 }
-    - { name: Hammer Theatre Center,  url: "https://hammertheatre.com/",               cap: 500 }
+    - { name: San Jose Civic, url: "https://www.jambase.com/venue/san-jose-civic", cap: 3000,
+        note: "sanjosetheaters.org 403s." }
+    - { name: The Ritz, url: "https://www.livenation.com/venue/KovZ917AOqb/the-ritz-events", cap: 500,
+        note: "Venue is OPEN. The old ritzsanjose.com domain is dead; theritzsanjose.com renders via JS and fetches empty." }
+    - { name: Hammer Theatre Center, url: "https://sanjose.events/venue/hammer-theatre-center/", cap: 500,
+        note: "hammertheatre.com/events/ reports 0 events while the venue is actively programming — do not read that as dark." }
 
   # The `outer` region — Santa Cruz, Marin, North Bay. Thin by design: only
   # things worth the drive clear the brief, so this list stays short.
@@ -79,8 +94,13 @@ tier_1_venues:
 # reach a ticketing platform.
 # -----------------------------------------------------------------------------
 tier_2_aggregators:
-  - { name: SF Funcheap,      url: "https://sf.funcheap.com/",       covers: [sf, east-bay, peninsula, south-bay], strength: "free and community events" }
-  - { name: DoTheBay,         url: "https://dothebay.com/",          covers: [sf, east-bay],                        strength: "music and nightlife" }
+  # Funcheap has NO month archive. /2026/08/ is a soft 404 — do not construct one.
+  # Working shapes: /YYYY/MM/DD/ per day, /region/<slug>/, and /events/ rolling.
+  - { name: SF Funcheap,      url: "https://sf.funcheap.com/{YYYY}/{MM}/{DD}/", covers: [sf, east-bay, peninsula, south-bay], strength: "free and community events",
+      note: "Also https://sf.funcheap.com/region/<south-bay|east-bay|peninsula|san-francisco>/ for a whole region at once." }
+  - { name: DoTheBay,         url: "https://dothebay.com/",          covers: [sf, east-bay],                        strength: "music and nightlife",
+      fetchable: false,
+      note: "403s at the domain level, every path. Useful for a human to browse, useless to poll — do not spend a fetch on it." }
   - { name: SF Station,       url: "https://www.sfstation.com/",     covers: [sf],                                  strength: "clubs and galleries" }
   - { name: Downtown SF,      url: "https://downtownsf.org/events",  covers: [sf],                                  strength: "weekday downtown programming" }
   - { name: Visit Oakland,    url: "https://www.visitoakland.com/events/", covers: [east-bay],                      strength: "festivals and street events" }
@@ -103,8 +123,14 @@ tier_2_aggregators:
 # -----------------------------------------------------------------------------
 tier_3_feeds:
   - { name: Songkick, url: "https://www.songkick.com/metro-areas/26330-us-sf-bay-area", note: "Best single sweep of the region. Paginate by date." }
-  - { name: Bandsintown, url: "https://www.bandsintown.com/" }
-  - { name: JamBase,   url: "https://www.jambase.com/" }
+  # Tier 3 by convention, tier 1 in practice: the per-venue pages carry exact
+  # dates AND support billing, and they are what rescued SFJAZZ, Freight &
+  # Salvage, Mountain Winery, Shoreline, San Jose Civic and the Ivy Room when
+  # those venues' own sites blocked or broke. Prefer a venue-specific JamBase
+  # URL over the generic sweep.
+  - { name: JamBase,   url: "https://www.jambase.com/venue/{venue-slug}" }
+  - { name: Bandsintown, url: "https://www.bandsintown.com/", fetchable: false,
+      note: "403s domain-wide, venue pages included. JamBase covers the same ground and does fetch — reach for that instead." }
 
 # -----------------------------------------------------------------------------
 # Known recurring programming. Compiled once, carried forward, verified
