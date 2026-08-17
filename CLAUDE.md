@@ -55,11 +55,12 @@ prints grow each week and are not an expectation to match — `0 errors, 0
 warnings` is. Don't pin a count here; the previous version of this line said 67
 and was two weeks stale.
 
-`validate.py` is the only gate that runs **unattended**: CI invokes it on every
-push, alongside a `brief.yml`/`sources.yml` parse check and a check that
-`docs/events.json` is current. The tooling floor (`ruff.toml`, 2026-08-15) is
-established but is **not** wired into CI — it is a local command you run before
-a merge, per the section below.
+CI runs everything unattended on every push: `validate.py`, a
+`brief.yml`/`sources.yml` parse check, a check that `docs/events.json` is
+current, and — since 2026-08-17 — both halves of the tooling floor, a
+`select`-coverage assertion over `ruff.toml` followed by `ruff check .`. The
+push path filter includes `ruff.toml` and `.github/workflows/**`, so narrowing
+the floor or editing the gate cannot slip through unwatched.
 
 ## Conventions that are load-bearing
 
@@ -82,8 +83,10 @@ a merge, per the section below.
 
 ## Tooling floor
 
-The one check that runs without a human. Run it before any merge, and any time
-`ruff.toml` is edited:
+Run it locally before any merge, and any time `ruff.toml` is edited. CI enforces
+the same floor, but by an assertion that duplicates the required rule families —
+this script is the authority, so if you add a family here, mirror it into
+`.github/workflows/validate.yml`:
 
 ```bash
 python3 ~/.claude/bin/tool-floor.py
@@ -104,7 +107,10 @@ cd docs && python3 -m http.server
 ```
 
 Serve on a fresh port when re-checking a change; `events.json` caches hard
-enough to show you the previous build.
+enough to show you the previous build. The published page fetches
+`events.json?v=<timestamp>` so a warm browser cannot serve stale data, but
+`index.html` itself still sits behind the Pages CDN — **hard-reload after a
+deploy**, or you will diagnose a build that actually worked.
 
 **Screenshots of the page at a named viewport need care.** Headless Chrome does
 not honour the mobile layout viewport — `--window-size=390,1500` yields a PNG
