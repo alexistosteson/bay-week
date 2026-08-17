@@ -33,8 +33,8 @@ tier_1_venues:
     - { name: The Warfield,           url: "https://www.thewarfieldtheatre.com/",      cap: 2300 }
     - { name: SFJAZZ,                 url: "https://www.sfjazz.org/",                  cap: 700 }
     - { name: Castro Theatre,         url: "https://www.castrotheatre.com/",           cap: 1400 }
-    - { name: Stern Grove Festival,   url: "https://www.sterngrove.org/",              cap: 10000,
-        note: "Free but lottery-ticketed. Always state the access mechanism." }
+    - { name: Stern Grove Festival,   url: "https://www.sterngrove.org/lineup2026",    cap: 10000,
+        note: "Free but lottery-ticketed — always state the access mechanism (GA lottery opens six weeks out; a 1,500-ticket Community Box Office goes first-come on the day). SEASON IS MID-JUNE TO MID-AUGUST: 2026 ran Jun 14–Aug 16 and closed with Al Green. Nothing here after that, whatever the homepage still says." }
     - { name: Roxie Theater,          url: "https://roxie.com/",                       cap: null,
         note: "Repertory and one-off screenings. Ignore the first-run showtimes." }
 
@@ -109,21 +109,41 @@ tier_3_feeds:
 # -----------------------------------------------------------------------------
 # Known recurring programming. Compiled once, carried forward, verified
 # monthly rather than re-researched every week.
+#
+# A SEASON IS PART OF THE CADENCE. Several entries here were written as though
+# they ran all year, and the 2026-08-17 run wasted its outer-region budget
+# looking for concerts that had finished a fortnight earlier. Where a series
+# has a season, `cadence` states it, and `season_ends` carries the last date
+# actually confirmed — treat a window past that date as unverified, not as
+# programming that failed to appear.
 # -----------------------------------------------------------------------------
 recurring:
   - { name: Oakland First Fridays,  region: east-bay,  cadence: "1st Friday, 5–9:30pm",     cost: free }
   - { name: Oakland Art Murmur,     region: east-bay,  cadence: "1st Friday, 6–9pm",        cost: free }
   - { name: Second Friday Artwalk,  region: east-bay,  cadence: "2nd Friday",               cost: free }
   - { name: Friday Nights at OMCA,  region: east-bay,  cadence: "Fridays, Apr–Oct, from 5pm", cost: free }
-  - { name: Concerts at the Lake,   region: east-bay,  cadence: "Sundays, 1–3pm",           cost: free }
+  - { name: Concerts at the Lake,   region: east-bay,  cadence: "Sundays 1–3pm, early Jul–early Aug ONLY", cost: free,
+      season_ends: 2026-08-02,
+      note: "Oakland Municipal Band, Lakeside Park. A five-date season, not a standing Sunday fixture — 2026 ran Jul 4, 12, 19, 26 and Aug 2." }
   - { name: Downtown First Thursdays, region: sf,      cadence: "1st Thursday, 5–10pm",     cost: free }
   - { name: Inner Sunset Flea,      region: sf,        cadence: "2nd Sunday, Apr–Nov",      cost: free }
   - { name: Lindy in the Park,      region: sf,        cadence: "Sundays, 11am–2pm",        cost: free }
-  - { name: Chinatown Night Market, region: sf,        cadence: "Monthly Fridays",          cost: free }
+  - { name: Chinatown Night Market, region: sf,        cadence: "2nd Friday, May–Oct, 5–9pm", cost: free,
+      note: "Grant Ave; 'monthly Fridays' was too loose to place on a calendar." }
   - { name: Head West Marketplace,  region: varies,    cadence: "Most weekends, rotating",  cost: free }
-  - { name: Santana Row Summer Music, region: south-bay, cadence: "Tuesdays, summer",       cost: free }
+  - { name: Sips & Sounds of Summer, region: south-bay, cadence: "Tuesdays 6–8pm, Aug–Sep", cost: free,
+      note: "Santana Row Park, near Left Bank. Previously filed here as 'Santana Row Summer Music'." }
   - { name: Music on the Square,    region: peninsula, cadence: "Fridays, 6–8pm, summer",   cost: free }
-  - { name: Palo Alto park concerts, region: peninsula, cadence: "Sundays, 6:30pm, summer", cost: free }
+  - { name: Movies on the Square,   region: peninsula, cadence: "Thursdays, 6–10pm, summer", cost: free,
+      note: "Courthouse Square, Redwood City — same square as the Friday concerts. Family film at 6, main feature 8:30." }
+  - { name: Palo Alto Twilight Concert Series, region: peninsula, cadence: "SATURDAYS, 6:30pm, summer", cost: free,
+      note: "Was recorded here as Sundays, which is wrong and cost a week's listing. Alternates between Rinconada Park and Mitchell Park." }
+  - { name: Colma Summer Concert Series, region: peninsula, cadence: "Thursdays 6–8pm, August", cost: free,
+      note: "On the grass at the Colma Community Center. BART Colma genuinely beats driving." }
+  - { name: "Beats, Brews & Vines", region: peninsula, cadence: "3rd Thursday 6–8pm, Aug–Oct", cost: free,
+      note: "Downtown Millbrae, Broadway at Hillcrest." }
+  - { name: San Jose Bike Party,    region: south-bay, cadence: "3rd Friday, meet 7:30pm",  cost: free,
+      note: "Start point announced the week of the ride." }
 
 # -----------------------------------------------------------------------------
 # Practical notes the compiler should surface when relevant.

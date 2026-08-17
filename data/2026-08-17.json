@@ -58,6 +58,7 @@
         "club",
         "amphitheater",
         "arena",
+        "convention-center",
         "theater",
         "concert-hall",
         "church",
@@ -65,6 +66,7 @@
         "street",
         "gallery",
         "museum",
+        "civic",
         "winery",
         "estate",
         "ballpark",
@@ -825,7 +827,7 @@
         "concert",
         "festival"
       ],
-      "venue_type": "arena",
+      "venue_type": "convention-center",
       "genre": [
         "electronic",
         "dubstep"
@@ -908,7 +910,7 @@
       "type": [
         "market"
       ],
-      "venue_type": "park",
+      "venue_type": "civic",
       "cost": "free",
       "lat": 37.369,
       "lng": -122.002,
@@ -1362,7 +1364,7 @@
         "talk",
         "dance"
       ],
-      "venue_type": "theater",
+      "venue_type": "civic",
       "cost": "free",
       "lat": 37.779,
       "lng": -122.416,
@@ -1499,12 +1501,36 @@
       "type": [
         "market"
       ],
-      "venue_type": "park",
+      "venue_type": "civic",
       "cost": "free",
       "lat": 37.369,
       "lng": -122.002,
       "url": "https://sf.funcheap.com/san-jose-cactus-succulent-societys-2026-summer-cactus-succulent-fair/",
       "note": "Full day, forty-plus vendors, free entry — competitive horticulture as spectator sport. The show tables are worth as much time as the sales floor."
+    },
+    {
+      "id": "0822-wobbleland",
+      "date": "2026-08-22",
+      "start": "18:00",
+      "title": "Wobbleland 2026, day 2",
+      "venue": "San Jose McEnery Convention Center",
+      "city": "San Jose",
+      "geo": "south-bay",
+      "type": [
+        "concert",
+        "festival"
+      ],
+      "venue_type": "convention-center",
+      "lat": 37.33,
+      "lng": -121.889,
+      "genre": [
+        "electronic",
+        "dubstep"
+      ],
+      "cost": "ticketed",
+      "price": "$80–190",
+      "url": "https://www.insomniac.com/events/wobbleland-2026-2026-08-21-san-jose-ca/",
+      "note": "Second day of the two-day bass festival, same 6pm door and same 18+ rule. Single-day tickets exist, so this is the one to pick if you only want one of the two."
     },
     {
       "id": "0822-guild-untouchables",
@@ -1767,7 +1793,7 @@
       "type": [
         "market"
       ],
-      "venue_type": "park",
+      "venue_type": "civic",
       "cost": "free",
       "lat": 37.369,
       "lng": -122.002,
