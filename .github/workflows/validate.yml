@@ -18,7 +18,33 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install pyyaml jsonschema
+      - run: pip install pyyaml jsonschema ruff
+      # The tool floor, in two halves. Linting alone is not the floor: `ruff
+      # check` passes happily against a narrowed `select`, so the assertion
+      # below is what makes removing a rule family a hard failure rather than a
+      # silent pass. Mirrors ~/.claude/bin/tool-floor.py, which cannot run here
+      # because it lives outside the repo. Keep the two lists in step.
+      - name: Check the tool floor is enforceable
+        run: |
+          python3 - <<'PY'
+          import sys, tomllib, pathlib
+          REQUIRED = {"F", "ARG", "B", "RUF"}
+          p = pathlib.Path("ruff.toml")
+          if not p.exists():
+              print("::error::ruff.toml is missing — the tool floor is not enforceable")
+              sys.exit(1)
+          select = set(tomllib.loads(p.read_text()).get("lint", {}).get("select", []))
+          missing = sorted(REQUIRED - select)
+          if missing:
+              print(f"::error::ruff.toml no longer selects required rule "
+                    f"{'family' if len(missing) == 1 else 'families'}: "
+                    f"{', '.join(missing)} — narrowing the floor is a violation, "
+                    f"not a preference")
+              sys.exit(1)
+          print(f"floor enforceable: select covers {', '.join(sorted(REQUIRED))}")
+          PY
+      - name: Lint
+        run: ruff check .
       - name: Validate event data
         run: python3 scripts/validate.py
       - name: Check brief.yml parses
