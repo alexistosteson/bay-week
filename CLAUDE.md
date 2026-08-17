@@ -46,12 +46,20 @@ handoff/             design port package (not published; root-level, not docs/)
 Weekly run:
 
 ```bash
-python3 scripts/validate.py     # expect: 67 events, 0 errors, 0 warnings
+python3 scripts/validate.py     # expect: 0 errors, 0 warnings (exit 0)
 python3 scripts/build.py        # publishes newest data/ file to docs/
 ```
 
-`validate.py` is the only automated gate in the project until the tooling floor
-exists. It runs in CI on every push.
+`validate.py` checks **every** file in `data/`, so the file and event counts it
+prints grow each week and are not an expectation to match — `0 errors, 0
+warnings` is. Don't pin a count here; the previous version of this line said 67
+and was two weeks stale.
+
+`validate.py` is the only gate that runs **unattended**: CI invokes it on every
+push, alongside a `brief.yml`/`sources.yml` parse check and a check that
+`docs/events.json` is current. The tooling floor (`ruff.toml`, 2026-08-15) is
+established but is **not** wired into CI — it is a local command you run before
+a merge, per the section below.
 
 ## Conventions that are load-bearing
 
