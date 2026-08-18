@@ -113,12 +113,23 @@ else no "some listings have no note"; fi
 # 7. The tool floor must be ENFORCEABLE. Pure python, so this always runs.
 #    Mirrors .github/workflows/validate.yml — keep the two lists in step.
 if python3 - <<'PY'
-import sys, tomllib, pathlib
+import sys, pathlib, re
 REQUIRED = {"F", "ARG", "B", "RUF"}
 p = pathlib.Path("ruff.toml")
 if not p.exists():
     print("        ruff.toml is missing"); sys.exit(1)
-missing = sorted(REQUIRED - set(tomllib.loads(p.read_text()).get("lint", {}).get("select", [])))
+raw = p.read_text()
+try:
+    import tomllib
+    select = set(tomllib.loads(raw).get("lint", {}).get("select", []))
+except ImportError:
+    # Python < 3.11 has no tomllib. Fall back to reading the select list
+    # directly rather than reporting a failure the week did not cause — a
+    # missing stdlib module is not a narrowed floor, and silently skipping
+    # would be worse than either.
+    m = re.search(r"^\s*select\s*=\s*\[(.*?)\]", raw, re.S | re.M)
+    select = set(re.findall(r'"([^"]+)"', m.group(1))) if m else set()
+missing = sorted(REQUIRED - select)
 if missing:
     print(f"        ruff.toml no longer selects: {', '.join(missing)}"); sys.exit(1)
 sys.exit(0)
