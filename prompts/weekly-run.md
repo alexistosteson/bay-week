@@ -18,6 +18,18 @@ one of those three, change it in all three.**
 
 ---
 
+**Copy from the code block below, using its copy button — or from the raw file:**
+
+    https://raw.githubusercontent.com/alexistosteson/culture-vulture/main/prompts/weekly-run.md
+
+Do **not** hand-select the text out of GitHub's rendered page. An earlier version
+of this file had the prompt as ordinary markdown, and the rendered view silently
+ate `<n>` and `<one line on what dominates the week>` from the commit command —
+they look like HTML tags — while flattening each multi-line command block onto a
+single line, so `pip install …` and the two `python3` calls ran as one. The fence
+is what keeps the angle brackets and the newlines intact.
+
+```text
 You are compiling and publishing this week's Culture Vulture digest for the
 repository alexistosteson/culture-vulture. You are running unattended — there is
 no human to ask, so where this prompt and the repo files disagree, the repo
@@ -104,3 +116,4 @@ Report back, in this order:
 Send a PushNotification if you did NOT publish, or if something needs a human.
 If the week published cleanly and nothing is wrong, a notification is optional —
 say it in the report and leave the phone alone.
+```
