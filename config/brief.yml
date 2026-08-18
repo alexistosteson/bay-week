@@ -347,10 +347,17 @@ interests:
       - tribute and legacy acts
 
   # Venue sizes worth favouring when two events compete for a slot.
+  #
+  # `civic` covers community centres, school grounds, libraries and municipal
+  # halls — the buildings a town already owns. It earns `prefer` because the
+  # programming that lands there is usually free, usually local, and almost
+  # never reaches a ticketing platform, which is exactly what the digest is
+  # for. `convention-center` is deprioritized on the same logic as `arena`:
+  # a promoter big enough to book one is big enough to be findable already.
   venue_bias:
-    prefer: [club, gallery, church, park, street, estate, winery]
+    prefer: [club, gallery, church, park, street, estate, winery, civic]
     include: [theater, concert-hall, amphitheater, museum, ballpark, rooftop]
-    deprioritize: [arena, stadium]
+    deprioritize: [arena, stadium, convention-center]
 
 # -----------------------------------------------------------------------------
 # WHAT NOT — exclusions
