@@ -43,6 +43,26 @@ tier_1_venues:
         note: "Free but lottery-ticketed — always state the access mechanism (GA lottery opens six weeks out; a 1,500-ticket Community Box Office goes first-come on the day). SEASON IS MID-JUNE TO MID-AUGUST: 2026 ran Jun 14–Aug 16 and closed with Al Green. Nothing here after that, whatever the homepage still says." }
     - { name: Roxie Theater,          url: "https://roxie.com/",                       cap: null,
         note: "Repertory and one-off screenings. Ignore the first-run showtimes." }
+    - { name: The Fillmore,          url: "https://www.jambase.com/venue/the-fillmore", cap: 1315,
+        note: "Added 2026-08-18. A 1,315-cap landmark that was somehow absent from this file, and cost the 17 Aug week three shows." }
+    - { name: Gray Area,             url: "https://grayarea.org/events/", cap: 700,
+        note: "Grand Theater, Mission. Experimental electronic, audiovisual and installation work — the `experimental and improv` emphasis in brief.yml has nowhere else to look." }
+    - { name: Yerba Buena Center for the Arts, url: "https://ybca.org/whats-on/", cap: null,
+        note: "Galleries free every Wednesday. State the free day, it is the point." }
+    - { name: San Francisco Playhouse, url: "https://www.sfplayhouse.org/calendar/", cap: 199,
+        note: "Two stages running concurrently. SF theatre coverage in this file was nil before 2026-08-18, which is why the digest kept reporting thin theatre weeks." }
+    - { name: Z Space,               url: "https://www.zspace.org/calendar", cap: 300,
+        note: "Experimental theatre and dance in the Mission." }
+    - { name: Fort Mason Center,     url: "https://fortmason.org/calendar/", cap: null,
+        note: "Arts campus — festivals, fairs and one-offs across several halls." }
+    - { name: 1015 Folsom,           url: "https://1015.com/", cap: 1000 }
+    - { name: The Foundry SF,        url: "https://www.thefoundrysf.com/", cap: 500 }
+    - { name: Kilowatt,              url: "https://www.kilowattbar.com/", cap: 150 }
+    - { name: Chase Center,          url: "https://www.chasecenter.com/events", cap: 18000,
+        note: "Arena. `deprioritize` in brief.yml — list for completeness, never feature." }
+    # Davies Symphony Hall / SF Symphony: sfsymphony.org sits behind a queueing
+    # redirect and cannot be fetched directly. The orchestra's season is roughly
+    # September to June, so an empty August is expected rather than a miss.
 
   east_bay:
     - { name: Fox Theater,            url: "https://thefoxoakland.com/",               cap: 2800 }
@@ -57,6 +77,8 @@ tier_1_venues:
     - { name: Freight & Salvage, url: "https://www.jambase.com/venue/freight-salvage", cap: 600,
         note: "thefreight.org 403s. A seated listening room, not a club." }
     - { name: The UC Theatre,         url: "https://theuctheatre.org/",                cap: null }
+    - { name: Cornerstone,           url: "https://cornerstoneberkeley.com/events", cap: 300,
+        note: "Beer hall on Shattuck with a real stage at the back." }
     - { name: 924 Gilman,            url: "https://924gilman.org/", cap: 300,
         note: "Volunteer-run all-ages punk institution. The site is a landing page — shows are behind its ticketing link, so this one needs a click-through rather than a single fetch." }
     # Starline Social Club — CLOSED. Both spaces are marked closed and the last
