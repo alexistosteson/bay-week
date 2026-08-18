@@ -18,6 +18,22 @@ owed only when a spec here is declared `build`; see the parked row in
 - **`delivery-tiers`' floor:** a written spec, the owner's behavioural check, no
   claim without command output proving it, and work never on `main`.
 
+**"Work never on `main`" means never *develop* there — it has never meant never
+merge there.** Commits are authored on a branch; `main` only ever receives merge
+commits. That is what the history does and it is what the weekly run does. The
+gate on a merge is `scripts/verify.sh`, not a human being awake:
+
+```bash
+bash scripts/verify.sh   # exit 0 -> merge it.  exit 1 -> leave it, escalate.
+```
+
+**Verified work merges. That is the default, not a thing to ask about.** Holding
+a green week back for review publishes nothing and helps no one — the failure
+mode this project actually suffers is a stale site, not a hasty one. Escalate
+when `verify.sh` exits 1, when a check is SKIPPED and you cannot say why, or
+when the research itself was thin enough that you would not stand behind the
+week. Never escalate merely because a change feels large.
+
 This file plus the backlog are the whole process surface.
 
 ## The one thing that will bite you
@@ -39,16 +55,32 @@ prompts/             the research prompt an LLM runs against brief.yml
 data/YYYY-MM-DD.json one file per week — the events and their window
 scripts/validate.py  schema + vocabulary + window checks (runs in CI)
 scripts/build.py     projects brief.yml over the data file -> docs/events.json
+scripts/verify.sh    the merge gate — everything above plus lint, the tool
+                     floor, digest/data agreement, and a headless render
 docs/                THE PUBLISHED SITE — index.html + events.json only
 handoff/             design port package (not published; root-level, not docs/)
 ```
 
-Weekly run:
+Weekly run — research on a branch, then:
 
 ```bash
 python3 scripts/validate.py     # expect: 0 errors, 0 warnings (exit 0)
 python3 scripts/build.py        # publishes newest data/ file to docs/
+bash    scripts/verify.sh       # the gate; exit 0 means merge, exit 1 means stop
 ```
+
+Then, only on exit 0:
+
+```bash
+git checkout main && git merge --no-ff <branch> && git push origin main
+```
+
+`verify.sh` is deliberately stricter than `validate.py`. `validate.py` checks a
+data file against itself and will happily call a thin week clean — the
+2026-08-17 run passed it while missing 23 listings from four tier-1 venues whose
+sites were quietly returning 403. Nothing mechanical can catch that; the report
+has to say what it could not reach, which is why `verify.sh` prints SKIPPED
+checks separately and the weekly report is expected to repeat them.
 
 `validate.py` checks **every** file in `data/`, so the file and event counts it
 prints grow each week and are not an expectation to match — `0 errors, 0
