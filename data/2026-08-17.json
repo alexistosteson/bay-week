@@ -473,6 +473,25 @@
       "note": "Free with admission, 45 minutes, on a sculptor who has spent fifty years making wire rope behave like foliage. The lunchtime slot is the least crowded way to see the show."
     },
     {
+      "id": "0819-sfplayhouse-hairspray",
+      "date": "2026-08-19",
+      "start": "14:00",
+      "title": "Hairspray",
+      "venue": "San Francisco Playhouse",
+      "city": "San Francisco",
+      "geo": "sf",
+      "type": [
+        "theater"
+      ],
+      "venue_type": "theater",
+      "lat": 37.788,
+      "lng": -122.409,
+      "cost": "ticketed",
+      "price": "from $47",
+      "url": "https://www.sfplayhouse.org/calendar/",
+      "note": "Matinee of the Playhouse's summer musical, running to 12 September. Their second stage, R.O.I., opened this month and plays the same weeks — the theatre listing this digest has otherwise been thin on."
+    },
+    {
       "id": "0819-mtnwinery-menatwork",
       "date": "2026-08-19",
       "start": "19:00",
@@ -642,6 +661,27 @@
       "note": "Silkworm played taut, funny, unsentimental rock for fifteen years and stopped in 2005 when Michael Dahlquist was killed; they play rarely and never casually. Nina Nastasia opens with the bleakest and best songwriting on any bill this week. 21+."
     },
     {
+      "id": "0819-fillmore-pierrebourne",
+      "date": "2026-08-19",
+      "title": "Pi'erre Bourne",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "hip-hop"
+      ],
+      "venue": "The Fillmore",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "concert-hall",
+      "lat": 37.784,
+      "lng": -122.433,
+      "cost": "ticketed",
+      "confidence": "low",
+      "url": "https://www.jambase.com/venue/the-fillmore",
+      "note": "Atlanta producer-rapper whose beats defined a chunk of late-2010s rap before he stepped to the mic himself. The Fillmore's chandeliers and free apples are the other half of the ticket. Door time not published."
+    },
+    {
       "id": "0819-filoli-summernights",
       "date": "2026-08-19",
       "title": "Filoli Gardens Summer Nights",
@@ -661,6 +701,29 @@
       "confidence": "low",
       "url": "https://filoli.org/",
       "note": "The formal gardens open into the evening, opening night of a run to 3 September. Which nights of the week it runs was not stated on the only fetchable listing — confirm before driving to Woodside."
+    },
+    {
+      "id": "0819-grayarea-synth",
+      "date": "2026-08-19",
+      "title": "Creative Resource Library: Synth Sessions",
+      "type": [
+        "talk",
+        "concert"
+      ],
+      "genre": [
+        "electronic",
+        "experimental"
+      ],
+      "cost": "free",
+      "confidence": "low",
+      "venue": "Gray Area",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "theater",
+      "lat": 37.755,
+      "lng": -122.418,
+      "url": "https://grayarea.org/events/",
+      "note": "Open-bench evening in Gray Area's resource library — hands on the modular gear rather than a performance. Time not published."
     },
     {
       "id": "0819-regency-thesword",
@@ -683,6 +746,23 @@
       "lng": -122.421,
       "url": "https://www.jambase.com/venue/the-regency-ballroom",
       "note": "Two of the better stoner-metal bands of the last twenty years on one bill — the Sword's Sabbath-shaped riffs against Red Fang's blunter, funnier take. Door time not published."
+    },
+    {
+      "id": "0819-ybca-free",
+      "date": "2026-08-19",
+      "title": "Free Wednesday at YBCA",
+      "venue": "Yerba Buena Center for the Arts",
+      "city": "San Francisco",
+      "geo": "sf",
+      "type": [
+        "museum"
+      ],
+      "venue_type": "museum",
+      "lat": 37.785,
+      "lng": -122.401,
+      "cost": "free",
+      "url": "https://ybca.org/whats-on/",
+      "note": "Galleries free every Wednesday. Currently showing GaHee Park's Behind the Curtain — surrealist paintings that are prettier than they are comfortable. A panel, Creative Power Moves, runs the same day."
     },
     {
       "id": "0820-ellis-edm",
@@ -1487,6 +1567,24 @@
       "note": "Twenty-third year of a Cocteau Twins fan gathering that has outlasted most actual bands. Night one on Folsom; the lineup and door time were not posted, but night two at the Chapel is the anchor."
     },
     {
+      "id": "0821-cornerstone-coyoteisland",
+      "date": "2026-08-21",
+      "title": "Coyote Island, Mount Saint Elias",
+      "venue": "Cornerstone",
+      "city": "Berkeley",
+      "geo": "east-bay",
+      "type": [
+        "concert"
+      ],
+      "venue_type": "club",
+      "lat": 37.866,
+      "lng": -122.267,
+      "cost": "ticketed",
+      "confidence": "low",
+      "url": "https://cornerstoneberkeley.com/events",
+      "note": "Sold out. Beer hall on Shattuck with a real stage at the back; the bill leans warm and folk-adjacent. Door time not published."
+    },
+    {
       "id": "0821-dna-90rave",
       "date": "2026-08-21",
       "title": "Block Rockin' Beats: 90s Rave",
@@ -1506,6 +1604,28 @@
       "confidence": "low",
       "url": "https://www.dnalounge.com/calendar/",
       "note": "Big beat, acid house and trance played straight, 21+. Running alongside a 90s tribute-band night in the other room. No time or price posted."
+    },
+    {
+      "id": "0821-fillmore-ninevicious",
+      "date": "2026-08-21",
+      "title": "Nine Vicious",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "rock",
+        "punk"
+      ],
+      "venue": "The Fillmore",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "concert-hall",
+      "lat": 37.784,
+      "lng": -122.433,
+      "cost": "ticketed",
+      "confidence": "low",
+      "url": "https://www.jambase.com/venue/the-fillmore",
+      "note": "A Fillmore booking with little recorded trail — the room is the draw more than the name. Descriptor is lower-confidence; door time not published."
     },
     {
       "id": "0821-freight-zolajesus",
@@ -1528,6 +1648,29 @@
       "lng": -122.2685,
       "url": "https://thefreight.org/",
       "note": "Nika Roza Danilova sings gothic electronic music with an operatically trained voice, and the Freight's dead-quiet room is a strange, good place for it. Time and price not listed on the source that carried the date."
+    },
+    {
+      "id": "0821-grayarea-warnecke",
+      "date": "2026-08-21",
+      "title": "Pierce Warnecke and Matthew Biederman: Phytomorphic Topologies",
+      "type": [
+        "concert",
+        "talk"
+      ],
+      "genre": [
+        "experimental",
+        "electronic"
+      ],
+      "cost": "ticketed",
+      "confidence": "low",
+      "venue": "Gray Area",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "theater",
+      "lat": 37.755,
+      "lng": -122.418,
+      "url": "https://grayarea.org/events/",
+      "note": "Audiovisual work built on plant-derived forms, in a former cinema kitted out for exactly this. Closer to installation than gig. Time and price not published."
     },
     {
       "id": "0821-publicworks-koletzki",
@@ -2093,6 +2236,28 @@
       "note": "South Asian bass producer running drum & bass, breakbeat and dubstep for a record release, 18+. No door time or price posted."
     },
     {
+      "id": "0822-fillmore-littlestranger",
+      "date": "2026-08-22",
+      "title": "Little Stranger, Tropidelic, Jarv, Damn Skippy",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "hip-hop",
+        "funk"
+      ],
+      "venue": "The Fillmore",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "concert-hall",
+      "lat": 37.784,
+      "lng": -122.433,
+      "cost": "ticketed",
+      "confidence": "low",
+      "url": "https://www.jambase.com/venue/the-fillmore",
+      "note": "Party-rap and funk four deep — a bill built for a room that dances rather than watches. Door time not published."
+    },
+    {
       "id": "0822-freight-jeffparker",
       "date": "2026-08-22",
       "title": "Jeff Parker and ETA IVtet",
@@ -2114,6 +2279,29 @@
       "lng": -122.2685,
       "url": "https://thefreight.org/",
       "note": "Tortoise's guitarist leading the quartet that spent years in a tiny Highland Park bar inventing a patient, loop-like species of jazz. On record it is one of the decade's best; live it is longer and stranger. Set time not listed."
+    },
+    {
+      "id": "0822-grayarea-sfemf",
+      "date": "2026-08-22",
+      "title": "SF Electronic Music Festival: 25th anniversary gala",
+      "type": [
+        "concert",
+        "festival"
+      ],
+      "genre": [
+        "electronic",
+        "experimental"
+      ],
+      "cost": "ticketed",
+      "confidence": "low",
+      "venue": "Gray Area",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "theater",
+      "lat": 37.755,
+      "lng": -122.418,
+      "url": "https://grayarea.org/events/",
+      "note": "Twenty-five years of the city's longest-running experimental electronic festival, marked in the room that has hosted much of it. Lineup, time and price were not on the calendar listing — worth chasing, because the anniversary bill is likely the strongest of its year."
     },
     {
       "id": "0822-ivyroom-mismiths",
