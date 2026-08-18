@@ -431,6 +431,29 @@
       "note": "Yeon Sang-ho's zombie film works because it is really about class and a bad father. Ten years on, it still plays best with a full, loud room."
     },
     {
+      "id": "0818-regency-losmirlos",
+      "date": "2026-08-18",
+      "title": "Los Mirlos",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "latin",
+        "cumbia",
+        "world"
+      ],
+      "cost": "ticketed",
+      "confidence": "low",
+      "venue": "Regency Ballroom",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "concert-hall",
+      "lat": 37.7875,
+      "lng": -122.421,
+      "url": "https://www.jambase.com/venue/the-regency-ballroom",
+      "note": "The Amazonian chicha band — surf-guitar tremolo laid over cumbia rhythm, invented in Peru in the early seventies and still played by people who were there. One of the week's genuinely rare bookings. Door time not published."
+    },
+    {
       "id": "0819-bampfa-hassinger",
       "date": "2026-08-19",
       "start": "12:15",
@@ -638,6 +661,28 @@
       "confidence": "low",
       "url": "https://filoli.org/",
       "note": "The formal gardens open into the evening, opening night of a run to 3 September. Which nights of the week it runs was not stated on the only fetchable listing — confirm before driving to Woodside."
+    },
+    {
+      "id": "0819-regency-thesword",
+      "date": "2026-08-19",
+      "title": "The Sword, Red Fang, The Spoon Benders",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "metal",
+        "rock"
+      ],
+      "cost": "ticketed",
+      "confidence": "low",
+      "venue": "Regency Ballroom",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "concert-hall",
+      "lat": 37.7875,
+      "lng": -122.421,
+      "url": "https://www.jambase.com/venue/the-regency-ballroom",
+      "note": "Two of the better stoner-metal bands of the last twenty years on one bill — the Sword's Sabbath-shaped riffs against Red Fang's blunter, funnier take. Door time not published."
     },
     {
       "id": "0820-ellis-edm",
@@ -1485,6 +1530,27 @@
       "note": "Nika Roza Danilova sings gothic electronic music with an operatically trained voice, and the Freight's dead-quiet room is a strange, good place for it. Time and price not listed on the source that carried the date."
     },
     {
+      "id": "0821-publicworks-koletzki",
+      "date": "2026-08-21",
+      "title": "Oliver Koletzki, Course Correction",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "electronic",
+        "house"
+      ],
+      "cost": "ticketed",
+      "venue": "Public Works",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "club",
+      "lat": 37.769,
+      "lng": -122.419,
+      "url": "https://publicsf.com/",
+      "note": "Melodic, faintly folk-inflected house from the Stil vor Talent label boss, with a separate bill running in the Loft. Flagged as a PW Picks night, which means the venue's membership programme gets in free."
+    },
+    {
       "id": "0821-sjcivic-lupillorivera",
       "date": "2026-08-21",
       "title": "Lupillo Rivera, El As De La Sierra, Rogelio Martínez, Leonel El Ranchero",
@@ -2071,6 +2137,28 @@
       "note": "Misfits covers at the top of a three-band punk bill in a small Albany room. Door time not listed."
     },
     {
+      "id": "0822-publicworks-generaiderz",
+      "date": "2026-08-22",
+      "title": "Generaiderz: LeNtO San Francisco — MURDER CLUB, exmantera, Gabberbitch69",
+      "type": [
+        "concert"
+      ],
+      "genre": [
+        "electronic",
+        "hardcore"
+      ],
+      "cost": "ticketed",
+      "confidence": "low",
+      "venue": "Public Works",
+      "city": "San Francisco",
+      "geo": "sf",
+      "venue_type": "club",
+      "lat": 37.769,
+      "lng": -122.419,
+      "url": "https://publicsf.com/",
+      "note": "Fast, abrasive club music across both rooms — gabber and hard drum rather than house. Door time and price not published."
+    },
+    {
       "id": "0823-oakchinatown-streetfest2",
       "date": "2026-08-23",
       "start": "10:00",
@@ -2192,6 +2280,31 @@
       "lng": -122.39,
       "url": "https://sundaystreetssf.com/sunday-streets-bayview-2026/",
       "note": "A mile of Third Street closed to cars and handed to the neighbourhood. The Bayview edition is the least touristed of the season and the most locally programmed. Muni T runs the length of it."
+    },
+    {
+      "id": "0823-ggparkband",
+      "date": "2026-08-23",
+      "start": "13:00",
+      "end": "14:30",
+      "title": "Golden Gate Park Band: a tribute to Ukraine",
+      "venue": "Spreckels Temple of Music, Golden Gate Park",
+      "city": "San Francisco",
+      "geo": "sf",
+      "type": [
+        "concert",
+        "outdoor"
+      ],
+      "venue_type": "park",
+      "lat": 37.7699,
+      "lng": -122.468,
+      "genre": [
+        "classical",
+        "world"
+      ],
+      "cost": "free",
+      "outdoor": true,
+      "url": "https://goldengateparkband.org/calendar",
+      "note": "The city's municipal band has played free Sunday concerts at this bandshell since 1882 — this is its 144th season. Ninety minutes, no intermission, no ticket. Bring a layer; the Music Concourse fogs early."
     },
     {
       "id": "0823-bampfa-totoro",

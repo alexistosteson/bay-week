@@ -31,6 +31,8 @@ tier_1_venues:
     - { name: DNA Lounge, url: "https://www.dnalounge.com/calendar/{YYYY}/{MM}.html", cap: 500,
         note: "Build the URL for the target month, zero-padded. /calendar/ alone is only a year index." }
     - { name: Public Works,           url: "https://publicsf.com/",                    cap: 800 }
+    - { name: Regency Ballroom,      url: "https://www.jambase.com/venue/the-regency-ballroom", cap: 1400,
+        note: "Added 2026-08-18. Was missing entirely, and cost the 17 Aug week Los Mirlos and a Sword/Red Fang bill." }
     - { name: August Hall,            url: "https://www.augusthallsf.com/",            cap: 750 }
     - { name: The Warfield,           url: "https://www.thewarfieldtheatre.com/",      cap: 2300 }
     - { name: SFJAZZ, url: "https://www.jambase.com/venue/miner-auditorium-sfjazz-center", cap: 700,
@@ -55,6 +57,8 @@ tier_1_venues:
     - { name: Freight & Salvage, url: "https://www.jambase.com/venue/freight-salvage", cap: 600,
         note: "thefreight.org 403s. A seated listening room, not a club." }
     - { name: The UC Theatre,         url: "https://theuctheatre.org/",                cap: null }
+    - { name: 924 Gilman,            url: "https://924gilman.org/", cap: 300,
+        note: "Volunteer-run all-ages punk institution. The site is a landing page — shows are behind its ticketing link, so this one needs a click-through rather than a single fetch." }
     # Starline Social Club — CLOSED. Both spaces are marked closed and the last
     # listed show was 11 June 2026. Left commented so it is not re-added by mistake.
     # - { name: Starline Social Club, url: "https://starlinesocialclub.com/", cap: null }
@@ -154,6 +158,8 @@ recurring:
   - { name: Downtown First Thursdays, region: sf,      cadence: "1st Thursday, 5–10pm",     cost: free }
   - { name: Inner Sunset Flea,      region: sf,        cadence: "2nd Sunday, Apr–Nov",      cost: free }
   - { name: Lindy in the Park,      region: sf,        cadence: "Sundays, 11am–2pm",        cost: free }
+  - { name: Golden Gate Park Band, region: sf,        cadence: "Sundays 1–2:30pm, Apr–Sep", cost: free,
+      note: "Spreckels Temple of Music, Music Concourse. Free municipal band since 1882, 144th season in 2026 — a standing Sunday fixture that was missing from this list until 2026-08-18." }
   - { name: Chinatown Night Market, region: sf,        cadence: "2nd Friday, May–Oct, 5–9pm", cost: free,
       note: "Grant Ave; 'monthly Fridays' was too loose to place on a calendar." }
   - { name: Head West Marketplace,  region: varies,    cadence: "Most weekends, rotating",  cost: free }
